@@ -138,7 +138,6 @@
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
             <h3 class="text-2xl font-bold text-slate-900 dark:text-white" data-key="chooseLangTitle">Choose Your Language</h3>
             <p class="mt-2 text-slate-600 dark:text-slate-300" data-key="chooseLangSubtitle">Please select your preferred language.</p>
-        
             <div class="mt-6 flex flex-col gap-4">
                 <button class="lang-select-btn w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition" data-lang="en">English</button>
                 <button class="lang-select-btn w-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition" data-lang="hi">हिन्दी (Hindi)</button>
@@ -172,4 +171,795 @@
                     </button>
                     <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                         <div class="px-4 py-2 text-xs font-semibold text-slate-400" data-key="prefLang">Language</div>
-                        <a href="#" class="block px-4 py-2 text-sm text-
+                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="en">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="hi">हिन्दी</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="ta">தமிழ்</a>
+                        <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                        <div class="px-4 py-2 text-xs font-semibold text-slate-400" data-key="prefTheme">Theme</div>
+                        <div class="flex justify-around py-1">
+                            <button id="theme-light-btn" class="theme-select-btn p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                                <svg class="w-5 h-5 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            </button>
+                             <button id="theme-dark-btn" class="theme-select-btn p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                                <svg class="w-5 h-5 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                 <button id="mobile-menu-button" class="lg:hidden text-slate-600 dark:text-slate-300 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden lg:hidden px-6 pb-4">
+            <a href="#how-it-works" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navHowItWorks_mobile">How It Works</a>
+            <a href="#impact" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navImpact_mobile">Impact</a>
+            <a href="#find-machine" id="header-find-machine-btn-mobile" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navFindMachine_mobile">Find Nearest Machine</a>
+        </div>
+    </header>
+
+    
+    <main>
+        <section class="relative bg-slate-800">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2070&auto=format&fit=crop" alt="A person giving food to someone in need" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-slate-900/70"></div>
+            </div>
+            <div class="relative container mx-auto px-6 py-24 md:py-40 text-center text-white">
+                <div class="flex justify-center items-center gap-4">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium" data-key="fundedAmount">₹2.5M+ Funded</div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium" data-key="livesImpacted">50,000+ Lives Impacted</div>
+                </div>
+                <h1 class="mt-8 text-4xl md:text-6xl font-extrabold leading-tight">
+                    <span data-key="heroTitle1">Breaking</span> <span class="text-amber-400" data-key="heroTitle2">Barriers</span> <span data-key="heroTitle3">to Essential Goods</span>
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-300" data-key="heroSubtitle">Color-coded discount cards connecting those in need to affordable essentials.
+Your donation helps us provide up to 50% discounts at vending machines across the community.</p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#find-machine" id="find-nearest-btn" class="w-full sm:w-auto btn-gradient btn-gradient-indigo text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1" data-key="heroBtnFind">Find Nearest Machine</a>
+                    <a href="#donate" class="w-full sm:w-auto bg-slate-100/20 text-white font-semibold px-8 py-3 rounded-lg hover:bg-slate-100/30 transition-all ring-1 ring-inset ring-white/30 shadow-sm hover:shadow-md" data-key="heroBtnDonate">Make a Donation</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="impactTitle">Our Collective Impact</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300" data-key="impactSubtitle">Transparency is at the heart of what we do.
+See how your contributions are making a tangible difference in real-time.</p>
+                </div>
+                <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
+                        <div class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">₹2.5M+</div>
+                        <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300" data-key="impactFundsTitle">Total Funds Raised</div>
+                        <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="impactFundsDesc">From thousands of generous donors across the country.</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
+                        <div class="text-5xl font-extrabold text-green-600 dark:text-green-400">50,000+</div>
+                        <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300" data-key="impactPeopleTitle">Individuals Supported</div>
+                        <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="impactPeopleDesc">Provided with essential goods through our vending network.</p>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white" data-key="testimonialsTitle">Stories from Our Community</h3>
+                    <div class="relative max-w-2xl mx-auto mt-8">
+                        <div class="overflow-hidden">
+                            <div id="slider-track" class="flex slider-track">
+                                <div class="w-full flex-shrink-0 px-4">
+                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial1Text">"As a student, every rupee matters.
+The FairVend card has been a blessing, helping me buy snacks and essentials without worrying.
+It feels like someone cares."</p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial1Name">- Ananya, Student from Mumbai</div>
+                                    </div>
+                                </div>
+                                <div class="w-full flex-shrink-0 px-4">
+                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial2Text">"After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief.
+Thank you, FairVend, for your support."</p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial2Name">- Rajesh, Worker from Delhi</div>
+                                    </div>
+                                </div>
+                                <div class="w-full flex-shrink-0 px-4">
+                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial3Text">"The dignity this program provides is immeasurable.
+Getting essentials for my family without feeling like I'm asking for a handout has made all the difference."</p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial3Name">- Priya, Mother from Chennai</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="prev-slide" class="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
+                            <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <button id="next-slide" class="absolute top-1/2 -translate-y-1/2 right-0 translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
+                            <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="howTitle">A Simple System for a Big Impact</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300" data-key="howSubtitle">We believe in direct, transparent, and dignified support.
+Here’s how our color-coded discount system works.</p>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+                    <div class="card-gradient-indigo p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-indigo-500/10 transition-shadow transform hover:-translate-y-2">
+                        <div class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold dark:text-white" data-key="howStep1Title">Get Your Card</h3>
+                        <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="howStep1Desc">In partnership with local NGOs, we distribute FairVend cards.
+Each color represents a different level of support.</p>
+                    </div>
+                    <div class="card-gradient-green p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-green-500/10 transition-shadow transform hover:-translate-y-2">
+                        <div class="bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold dark:text-white" data-key="howStep2Title">Scan the Color</h3>
+                        <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="howStep2Desc">Simply show your card to the vending machine's scanner.
+Our system instantly recognizes and applies the discount.</p>
+                    </div>
+                    <div class="card-gradient-amber p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-amber-500/10 transition-shadow transform hover:-translate-y-2">
+                        <div class="bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M12 6h.01M6 12h.01M18 12h.01M7 7h.01M17 7h.01M7 17h.01M17 17h.01"></path></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold dark:text-white" data-key="howStep3Title">Receive Your Discount</h3>
+                        <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="howStep3Desc">Your discount is funded by generous donors, providing 
+essential items at a more affordable price.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-machine" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="findTitle">Find a FairVend Machine Near You</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300" data-key="findSubtitle">Enter your area or city to locate the closest machine and get directions.</p>
+                </div>
+                <div class="max-w-4xl mx-auto mt-12">
+                    <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                        <input id="location-input" type="text" data-key-placeholder="findPlaceholder" placeholder="e.g., 'Mumbai' or 'Connaught Place, Delhi'" class="flex-grow w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white dark:bg-slate-800">
+                        <button id="search-btn" class="w-full sm:w-auto bg-indigo-600 text-white font-semibold px-8 
+py-3 rounded-lg hover:bg-indigo-700 transition" data-key="findBtnSearch">Search</button>
+                    </div>
+                    <p id="search-status" class="text-center text-slate-500 dark:text-slate-400 min-h-[1.5rem]"></p>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="donate" class="py-20 md:py-28 bg-slate-100 dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="donateTitle">Fund a Discount, Fuel a Life</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300" data-key="donateSubtitle">Every contribution goes directly to providing essential goods at subsidized prices for those who need it most.</p>
+                </div>
+                <div class="max-w-md mx-auto mt-12 bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl">
+                    <form id="donation-form" class="space-y-6">
+                        <div>
+                            <label for="name-input" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" data-key="donationNameLabel">Your Name (for a personalized thank you)</label>
+                            <input id="name-input" type="text" data-key-placeholder="donationNamePlaceholder" placeholder="e.g., Jane Doe" class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white dark:bg-slate-800">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" data-key="donationAmountLabel">Select Donation Amount</label>
+                            <div class="grid grid-cols-3 gap-3 mb-6">
+                                <button type="button" class="bg-white dark:bg-slate-700 donation-amount-btn border border-slate-300 dark:border-slate-600 rounded-lg py-3 text-lg font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition" data-amount="100">₹100</button>
+                                <button type="button" class="bg-white dark:bg-slate-700 donation-amount-btn border border-slate-300 dark:border-slate-600 rounded-lg py-3 text-lg font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition" data-amount="500">₹500</button>
+                                <button type="button" class="bg-white dark:bg-slate-700 donation-amount-btn border border-slate-300 dark:border-slate-600 rounded-lg py-3 text-lg font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition" data-amount="1000">₹1000</button>
+                            </div>
+                            <input id="custom-amount-input" type="number" data-key-placeholder="donationCustomPlaceholder" placeholder="Custom Amount" class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300" data-key="donationCaptchaLabel">Security Check: Re-type the text</label>
+                            <div class="flex items-center gap-4">
+                                <div id="captcha-text" class="text-2xl font-bold px-4 py-2 bg-slate-100 dark:bg-slate-700/50 rounded-md select-none w-32 text-center text-slate-700 dark:text-slate-300"></div>
+                                <input id="captcha-input" type="text" class="flex-grow px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                            </div>
+                            <p id="captcha-error" class="text-sm text-red-500 hidden" data-key="captchaError">The text you entered does not match the security check. Please try again.</p>
+                        </div>
+                        
+                        <button id="donate-btn" type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition" data-key="donateBtnSecure">Donate Securely</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div id="thank-you-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[100] p-4">
+            <div id="thank-you-modal-content" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
+                <div class="text-5xl mb-4">
+                    <span class="text-indigo-600 dark:text-indigo-400">🎉</span>
+                </div>
+                <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400" data-key="modalThankYou">Thank You!</h3>
+                <p class="mt-4 text-slate-700 dark:text-slate-300" id="thank-you-message"></p>
+                <button id="close-modal-btn" class="mt-6 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition" data-key="modalClose">Close</button>
+            </div>
+        </div>
+
+    </main>
+    
+    <footer class="bg-slate-100 dark:bg-slate-950 py-12 md:py-20 border-t border-slate-200 dark:border-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
+                
+                <div class="col-span-2 md:col-span-2">
+                    <a href="#" class="flex items-center gap-2 text-2xl font-bold">
+                        <svg class="w-8 h-8 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.6356 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.6356 1.49472 7.02472 3.75736 4.75736C6.02 2.49 9.64999 2.42 12.001 4.52853Z"></path></svg>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-400 dark:to-blue-400">FairVend</span>
+                    </a>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm max-w-sm" data-key="footerMission">
+                        Committed to breaking barriers to essential goods through dignified, discounted access.
+                    </p>
+                    <div class="mt-6 flex space-x-4">
+                        <a href="#" class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V6h-3.35c-3.15 0-4.65 1.57-4.65 4.5V13.5z"/></svg>
+                        </a>
+                        <a href="#" class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Twitter">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3L7 22h3l8-20z"/></svg>
+                        </a>
+                        <a href="#" class="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.7 15.6c-.3-.2-1.8-.4-3.7-.4s-3.4.2-3.7.4c-.3.2-.5.5-.5.8v.5c0 .3.2.6.5.8.3.2 1.8.4 3.7.4s3.4-.2 3.7-.4c.3-.2.5-.5.5-.8v-.5c0-.3-.2-.6-.5-.8zM12 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-span-1">
+                    <h4 class="text-lg font-semibold text-slate-900 dark:text-white mb-4" data-key="footerQuickLinks">Quick Links</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#how-it-works" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="navHowItWorks_footer">How It Works</a></li>
+                        <li><a href="#impact" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="navImpact_footer">Impact Stories</a></li>
+                        <li><a href="#find-machine" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="navFindMachine_footer">Find Machine</a></li>
+                        <li><a href="#donate" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="navDonateNow_footer">Donate Now</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-1">
+                    <h4 class="text-lg font-semibold text-slate-900 dark:text-white mb-4" data-key="footerResources">Resources</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="footerPrivacyPolicy">Privacy Policy</a></li>
+                        <li><a href="#" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="footerTermsOfService">Terms of Service</a></li>
+                        <li><a href="#" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="footerFAQ">FAQ</a></li>
+                        <li><a href="#" class="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" data-key="footerContact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+                <p class="text-sm text-slate-500 dark:text-slate-400" data-key="footerCopyright">
+                    &copy; 2024 FairVend. All rights reserved. Registered Indian Charity.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const html = document.documentElement;
+            const settingsButton = document.getElementById('settings-button');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+            const themeLightBtn = document.getElementById('theme-light-btn');
+            const themeDarkBtn = document.getElementById('theme-dark-btn');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
+            const header = document.querySelector('header');
+            const findNearestBtn = document.getElementById('find-nearest-btn');
+            const headerFindMachineBtnDesktop = document.getElementById('header-find-machine-btn-desktop');
+            const headerFindMachineBtnMobile = document.getElementById('header-find-machine-btn-mobile');
+            const languageModal = document.getElementById('language-modal');
+            const langSelectBtns = document.querySelectorAll('.lang-select-btn');
+            const elementsToTranslate = document.querySelectorAll('[data-key], [data-key-placeholder]');
+
+            // --- Translation Data ---
+            const translations = {
+                en: {
+                    // Header/Nav
+                    navHowItWorks: "How It Works", navImpact: "Impact", navFindMachine: "Find Nearest Machine", navDonateNow: "Donate Now",
+                    navHowItWorks_mobile: "How It Works", navImpact_mobile: "Impact", navFindMachine_mobile: "Find Nearest Machine",
+                    prefLang: "Language", prefTheme: "Theme",
+                    // Hero
+                    fundedAmount: "₹2.5M+ Funded", livesImpacted: "50,000+ Lives Impacted",
+                    heroTitle1: "Breaking", heroTitle2: "Barriers", heroTitle3: "to Essential Goods",
+                    heroSubtitle: "Color-coded discount cards connecting those in need to affordable essentials. Your donation helps us provide up to 50% discounts at vending machines across the community.",
+                    heroBtnFind: "Find Nearest Machine", heroBtnDonate: "Make a Donation",
+                    // Impact
+                    impactTitle: "Our Collective Impact", impactSubtitle: "Transparency is at the heart of what we do. See how your contributions are making a tangible difference in real-time.",
+                    impactFundsTitle: "Total Funds Raised", impactFundsDesc: "From thousands of generous donors across the country.",
+                    impactPeopleTitle: "Individuals Supported", impactPeopleDesc: "Provided with essential goods through our vending network.",
+                    testimonialsTitle: "Stories from Our Community",
+                    testimonial1Text: "\"As a student, every rupee matters. The FairVend card has been a blessing, helping me buy snacks and essentials without worrying. It feels like someone cares.\"",
+                    testimonial1Name: "- Ananya, Student from Mumbai",
+                    testimonial2Text: "\"After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief. Thank you, FairVend, for your support.\"",
+                    testimonial2Name: "- Rajesh, Worker from Delhi",
+                    testimonial3Text: "\"The dignity this program provides is immeasurable. Getting essentials for my family without feeling like I'm asking for a handout has made all the difference.\"",
+                    testimonial3Name: "- Priya, Mother from Chennai",
+                    // How It Works
+                    howTitle: "A Simple System for a Big Impact", howSubtitle: "We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.",
+                    howStep1Title: "Get Your Card", howStep1Desc: "In partnership with local NGOs, we distribute FairVend cards. Each color represents a different level of support.",
+                    howStep2Title: "Scan the Color", howStep2Desc: "Simply show your card to the vending machine's scanner. Our system instantly recognizes and applies the discount.",
+                    howStep3Title: "Receive Your Discount", howStep3Desc: "Your discount is funded by generous donors, providing essential items at a more affordable price.",
+                    // Find Machine
+                    findTitle: "Find a FairVend Machine Near You", findSubtitle: "Enter your area or city to locate the closest machine and get directions.",
+                    findPlaceholder: "e.g., 'Mumbai' or 'Connaught Place, Delhi'", findBtnSearch: "Search",
+                    // Donate
+                    donateTitle: "Fund a Discount, Fuel a Life", donateSubtitle: "Every contribution goes directly to providing essential goods at subsidized prices for those who need it most.",
+                    donationNameLabel: "Your Name (for a personalized thank you)", donationNamePlaceholder: "e.g., Jane Doe",
+                    donationAmountLabel: "Select Donation Amount", donationCustomPlaceholder: "Custom Amount",
+                    donationCaptchaLabel: "Security Check: Re-type the text", captchaError: "The text you entered does not match the security check. Please try again.",
+                    donateBtnSecure: "Donate Securely",
+                    // Modals
+                    chooseLangTitle: "Choose Your Language", chooseLangSubtitle: "Please select your preferred language.",
+                    modalThankYou: "Thank You!", modalClose: "Close",
+                    // Footer
+                    footerMission: "Committed to breaking barriers to essential goods through dignified, discounted access.",
+                    footerQuickLinks: "Quick Links",
+                    navHowItWorks_footer: "How It Works", navImpact_footer: "Impact Stories", navFindMachine_footer: "Find Machine", navDonateNow_footer: "Donate Now",
+                    footerResources: "Resources",
+                    footerPrivacyPolicy: "Privacy Policy", footerTermsOfService: "Terms of Service", footerFAQ: "FAQ", footerContact: "Contact Us",
+                    footerCopyright: "© 2024 FairVend. All rights reserved. Registered Indian Charity.",
+                },
+                hi: {
+                    // Header/Nav
+                    navHowItWorks: "कैसे काम करता है", navImpact: "प्रभाव", navFindMachine: "नजदीकी मशीन खोजें", navDonateNow: "अभी दान करें",
+                    navHowItWorks_mobile: "कैसे काम करता है", navImpact_mobile: "प्रभाव", navFindMachine_mobile: "नजदीकी मशीन खोजें",
+                    prefLang: "भाषा", prefTheme: "थीम",
+                    // Hero
+                    fundedAmount: "₹2.5M+ वित्त पोषित", livesImpacted: "50,000+ जीवन प्रभावित",
+                    heroTitle1: "आवश्यक वस्तुओं में", heroTitle2: "बाधाओं को तोड़ना", heroTitle3: "",
+                    heroSubtitle: "रंग-कोडित छूट कार्ड ज़रूरतमंदों को किफायती आवश्यक वस्तुओं से जोड़ते हैं। आपका दान समुदाय भर में वेंडिंग मशीनों पर 50% तक की छूट प्रदान करने में हमारी मदद करता है।",
+                    heroBtnFind: "नजदीकी मशीन खोजें", heroBtnDonate: "दान करें",
+                    // Impact
+                    impactTitle: "हमारा सामूहिक प्रभाव", impactSubtitle: "पारदर्शिता हमारे काम के केंद्र में है। देखें कि आपका योगदान वास्तविक समय में कैसे एक ठोस बदलाव ला रहा है।",
+                    impactFundsTitle: "कुल धन जुटाया गया", impactFundsDesc: "देश भर के हजारों उदार दानदाताओं से।",
+                    impactPeopleTitle: "समर्थित व्यक्ति", impactPeopleDesc: "हमारे वेंडिंग नेटवर्क के माध्यम से आवश्यक वस्तुएं प्रदान की गईं।",
+                    testimonialsTitle: "हमारे समुदाय की कहानियाँ",
+                    testimonial1Text: "\"एक छात्र के तौर पर, हर रुपया मायने रखता है। फेयरवेंड कार्ड एक वरदान रहा है, जिसने मुझे बिना किसी चिंता के स्नैक्स और आवश्यक वस्तुएं खरीदने में मदद की है। ऐसा लगता है कि किसी को परवाह है।\"",
+                    testimonial1Name: "- अनन्या, मुंबई की छात्रा",
+                    testimonial2Text: "\"लंबे दिन के काम के बाद, मेरी बेटी के लिए किफायती पेय और सैनिटरी उत्पादों तक पहुंच होना एक बड़ी राहत है। फेयरवेंड, आपके समर्थन के लिए धन्यवाद।\"",
+                    testimonial2Name: "- राजेश, दिल्ली के मजदूर",
+                    testimonial3Text: "\"यह कार्यक्रम जो सम्मान प्रदान करता है, वह अमूल्य है। अपने परिवार के लिए आवश्यक चीजें बिना यह महसूस किए प्राप्त करना कि मैं भीख मांग रहा हूं, सब कुछ बदल दिया है।\"",
+                    testimonial3Name: "- प्रिया, चेन्नई की माँ",
+                    // How It Works
+                    howTitle: "एक बड़े प्रभाव के लिए एक सरल प्रणाली", howSubtitle: "हम प्रत्यक्ष, पारदर्शी और गरिमापूर्ण समर्थन में विश्वास करते हैं। यहां बताया गया है कि हमारी रंग-कोडित छूट प्रणाली कैसे काम करती है।",
+                    howStep1Title: "अपना कार्ड प्राप्त करें", howStep1Desc: "स्थानीय गैर सरकारी संगठनों के साथ साझेदारी में, हम फेयरवेंड कार्ड वितरित करते हैं। प्रत्येक रंग समर्थन के एक अलग स्तर का प्रतिनिधित्व करता है।",
+                    howStep2Title: "रंग को स्कैन करें", howStep2Desc: "बस वेंडिंग मशीन के स्कैनर को अपना कार्ड दिखाएं। हमारा सिस्टम तुरंत छूट को पहचानता है और लागू करता है।",
+                    howStep3Title: "अपनी छूट प्राप्त करें", howStep3Desc: "आपकी छूट उदार दाताओं द्वारा वित्त पोषित है, जो आवश्यक वस्तुओं को अधिक किफायती मूल्य पर प्रदान करती है।",
+                    // Find Machine
+                    findTitle: "अपने पास एक फेयरवेंड मशीन खोजें", findSubtitle: "नजदीकी मशीन का पता लगाने और दिशा-निर्देश प्राप्त करने के लिए अपना क्षेत्र या शहर दर्ज करें।",
+                    findPlaceholder: "उदाहरण के लिए, 'मुंबई' या 'कनॉट प्लेस, दिल्ली'", findBtnSearch: "खोजें",
+                    // Donate
+                    donateTitle: "एक छूट को फंड करें, एक जीवन को ईंधन दें", donateSubtitle: "प्रत्येक योगदान सीधे उन लोगों के लिए रियायती मूल्य पर आवश्यक वस्तुएं प्रदान करने में जाता है जिन्हें इसकी सबसे अधिक आवश्यकता है।",
+                    donationNameLabel: "आपका नाम (एक व्यक्तिगत धन्यवाद के लिए)", donationNamePlaceholder: "उदाहरण के लिए, रमेश कुमार",
+                    donationAmountLabel: "दान राशि चुनें", donationCustomPlaceholder: "कस्टम राशि",
+                    donationCaptchaLabel: "सुरक्षा जांच: टेक्स्ट पुनः टाइप करें", captchaError: "आपके द्वारा दर्ज किया गया टेक्स्ट सुरक्षा जांच से मेल नहीं खाता। कृपया पुनः प्रयास करें।",
+                    donateBtnSecure: "सुरक्षित रूप से दान करें",
+                    // Modals
+                    chooseLangTitle: "अपनी भाषा चुनें", chooseLangSubtitle: "कृपया अपनी पसंदीदा भाषा चुनें।",
+                    modalThankYou: "धन्यवाद!", modalClose: "बंद करें",
+                    // Footer
+                    footerMission: "गरिमापूर्ण, रियायती पहुंच के माध्यम से आवश्यक वस्तुओं की बाधाओं को तोड़ने के लिए प्रतिबद्ध।",
+                    footerQuickLinks: "त्वरित लिंक्स",
+                    navHowItWorks_footer: "कैसे काम करता है", navImpact_footer: "प्रभाव की कहानियाँ", navFindMachine_footer: "मशीन खोजें", navDonateNow_footer: "अभी दान करें",
+                    footerResources: "संसाधन",
+                    footerPrivacyPolicy: "गोपनीयता नीति", footerTermsOfService: "सेवा की शर्तें", footerFAQ: "अक्सर पूछे जाने वाले प्रश्न", footerContact: "हमसे संपर्क करें",
+                    footerCopyright: "© 2024 फेयरवेंड। सर्वाधिकार सुरक्षित। पंजीकृत भारतीय चैरिटी।",
+                },
+                ta: {
+                    // Header/Nav
+                    navHowItWorks: "எப்படி வேலை செய்கிறது", navImpact: "தாக்கம்", navFindMachine: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்", navDonateNow: "இப்போது நன்கொடை அளிக்கவும்",
+                    navHowItWorks_mobile: "எப்படி வேலை செய்கிறது", navImpact_mobile: "தாக்கம்", navFindMachine_mobile: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்",
+                    prefLang: "மொழி", prefTheme: "தீம்",
+                    // Hero
+                    fundedAmount: "₹2.5M+ நிதி திரட்டப்பட்டது", livesImpacted: "50,000+ உயிர்கள் பாதிக்கப்பட்டன",
+                    heroTitle1: "அத்தியாவசியப் பொருட்களுக்கான", heroTitle2: "தடைகளை உடைத்தல்", heroTitle3: "",
+                    heroSubtitle: "தேவைப்படுபவர்களுக்கு மலிவு விலையில் அத்தியாவசியப் பொருட்களை வழங்குவதற்காக வண்ண-குறியிடப்பட்ட தள்ளுபடி அட்டைகள். சமூகத்தில் உள்ள வेंडரிங் இயந்திரங்களில் 50% வரை தள்ளுபடிகளை வழங்க உங்கள் நன்கொடை எங்களுக்கு உதவுகிறது.",
+                    heroBtnFind: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்", heroBtnDonate: "நன்கொடை அளிக்கவும்",
+                    // Impact
+                    impactTitle: "எங்கள் கூட்டுத் தாக்கம்", impactSubtitle: "வெளிப்படைத்தன்மை எங்கள் பணியின் மையத்தில் உள்ளது. உங்கள் பங்களிப்புகள் நிகழ்நேரத்தில் எவ்வாறு ஒரு உறுதியான மாற்றத்தை ஏற்படுத்துகின்றன என்று பாருங்கள்.",
+                    impactFundsTitle: "மொத்தம் திரட்டப்பட்ட நிதி", impactFundsDesc: "நாடு முழுவதும் உள்ள ஆயிரக்கணக்கான தாராளமான நன்கொடையாளர்களிடமிருந்து.",
+                    impactPeopleTitle: "ஆதரவளிக்கப்பட்ட தனிநபர்கள்", impactPeopleDesc: "எங்கள் வண்டரிங் நெட்வொர்க் மூலம் அத்தியாவசியப் பொருட்கள் வழங்கப்பட்டன.",
+                    testimonialsTitle: "எங்கள் சமூகத்திலிருந்து கதைகள்",
+                    testimonial1Text: "\"ஒரு மாணவராக, ஒவ்வொரு ரூபாயும் முக்கியம். ஃபேர்வெண்ட் அட்டை ஒரு ஆசீர்வாதமாக உள்ளது, கவலைப்படாமல் தின்பண்டங்கள் மற்றும் அத்தியாவசியப் பொருட்களை வாங்க எனக்கு உதவுகிறது. யாரோ ஒருவர் கவலைப்படுகிறார் என்று தோன்றுகிறது.\"",
+                    testimonial1Name: "- அனன்யா, மும்பை மாணவி",
+                    testimonial2Text: "\"ஒரு நீண்ட நாள் வேலைக்குப் பிறகு, எனது மகளுக்கு மலிவு விலையில் பானங்கள் மற்றும் சுகாதாரப் பொருட்களை அணுகுவது ஒரு பெரிய நிவாரணம். ஃபேர்வெண்ட், உங்கள் ஆதரவுக்கு நன்றி.\"",
+                    testimonial2Name: "- ராஜேஷ், டெல்லியில் பணிபுரிபவர்",
+                    testimonial3Text: "\"இந்தத் திட்டம் வழங்கும் கண்ணியம் அளவிட முடியாதது. நான் கையேந்தவில்லை என்று உணராமல் என் குடும்பத்திற்கு அத்தியாவசியப் பொருட்களைப் பெறுவது அனைத்து வித்தியாசங்களையும் ஏற்படுத்தியுள்ளது.\"",
+                    testimonial3Name: "- பிரியா, சென்னைத் தாய்",
+                    // How It Works
+                    howTitle: "ஒரு பெரிய தாக்கத்திற்கான எளிய அமைப்பு", howSubtitle: "நாங்கள் நேரடி, வெளிப்படையான மற்றும் கண்ணியமான ஆதரவில் நம்புகிறோம். இங்குதான் எங்கள் வண்ண-குறியிடப்பட்ட தள்ளுபடி அமைப்பு எவ்வாறு செயல்படுகிறது.",
+                    howStep1Title: "உங்கள் அட்டையைப் பெறுங்கள்", howStep1Desc: "உள்ளூர் என்ஜிஓக்களுடன் இணைந்து, நாங்கள் ஃபேர்வெண்ட் அட்டைகளை விநியோகிக்கிறோம். ஒவ்வொரு வண்ணமும் ஒரு வித்தியாசமான ஆதரவு நிலையைக் குறிக்கிறது.",
+                    howStep2Title: "வண்ணத்தை ஸ்கேன் செய்யவும்", howStep2Desc: "விற்பனை இயந்திரத்தின் ஸ்கேனருக்கு உங்கள் அட்டையைக் காட்டினால் போதும். எங்கள் அமைப்பு உடனடியாகத் தள்ளுபடியை அடையாளம் கண்டு அதைப் பயன்படுத்துகிறது.",
+                    howStep3Title: "உங்கள் தள்ளுபடியைப் பெறுங்கள்", howStep3Desc: "உங்கள் தள்ளுபடி தாராளமான நன்கொடையாளர்களால் நிதியளிக்கப்படுகிறது, அத்தியாவசியப் பொருட்களை மலிவு விலையில் வழங்குகிறது.",
+                    // Find Machine
+                    findTitle: "உங்களுக்கு அருகிலுள்ள ஃபேர்வெண்ட் இயந்திரத்தைக் கண்டறியவும்", findSubtitle: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும் மற்றும் திசைகளைப் பெறவும் உங்கள் பகுதி அல்லது நகரத்தை உள்ளிடவும்.",
+                    findPlaceholder: "எ.கா., 'மும்பை' அல்லது 'கன்னாட் பிளேஸ், டெல்லி'", findBtnSearch: "தேடல்",
+                    // Donate
+                    donateTitle: "ஒரு தள்ளுபடிக்கு நிதியளிக்கவும், ஒரு வாழ்க்கைக்கு எரிபொருள் அளிக்கவும்", donateSubtitle: "ஒவ்வொரு பங்களிப்பும் யாருக்கு மிகவும் தேவைப்படுகிறதோ அவர்களுக்கு மானிய விலையில் அத்தியாவசியப் பொருட்களை வழங்குவதற்கு நேரடியாகச் செல்கிறது.",
+                    donationNameLabel: "உங்கள் பெயர் (தனிப்பட்ட நன்றிக்கு)", donationNamePlaceholder: "எ.கா., பிரியா",
+                    donationAmountLabel: "நன்கொடைத் தொகையைத் தேர்ந்தெடுக்கவும்", donationCustomPlaceholder: "தனிப்பயன் தொகை",
+                    donationCaptchaLabel: "பாதுகாப்புச் சரிபார்ப்பு: உரையை மீண்டும் தட்டச்சு செய்யவும்", captchaError: "நீங்கள் உள்ளிட்ட உரை பாதுகாப்புச் சரிபார்ப்புடன் பொருந்தவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+                    donateBtnSecure: "பாதுகாப்பாக நன்கொடை அளிக்கவும்",
+                    // Modals
+                    chooseLangTitle: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்", chooseLangSubtitle: "தயவுசெய்து நீங்கள் விரும்பும் மொழியைத் தேர்ந்தெடுக்கவும்.",
+                    modalThankYou: "நன்றி!", modalClose: "மூடு",
+                    // Footer
+                    footerMission: "கண்ணியமான, தள்ளுபடி செய்யப்பட்ட அணுகல் மூலம் அத்தியாவசியப் பொருட்களுக்கான தடைகளை உடைக்க உறுதிபூண்டுள்ளது.",
+                    footerQuickLinks: "விரைவு இணைப்புகள்",
+                    navHowItWorks_footer: "எப்படி வேலை செய்கிறது", navImpact_footer: "தாக்கக் கதைகள்", navFindMachine_footer: "இயந்திரத்தைக் கண்டறியவும்", navDonateNow_footer: "இப்போது நன்கொடை அளிக்கவும்",
+                    footerResources: "வளங்கள்",
+                    footerPrivacyPolicy: "தனியுரிமைக் கொள்கை", footerTermsOfService: "சேவை விதிமுறைகள்", footerFAQ: "அடிக்கடி கேட்கப்படும் கேள்விகள்", footerContact: "எங்களைத் தொடர்பு கொள்ளுங்கள்",
+                    footerCopyright: "© 2024 ஃபேர்வெண்ட். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை. பதிவுசெய்யப்பட்ட இந்திய தொண்டு நிறுவனம்.",
+                }
+            };
+
+            // Global state for current language
+            let currentLang = localStorage.getItem('fairvendLang') || 'en';
+            
+            // CAPTCHA variables
+            let correctCaptcha = '';
+            const captchaTextDiv = document.getElementById('captcha-text');
+            const captchaInput = document.getElementById('captcha-input');
+            const captchaError = document.getElementById('captcha-error');
+
+            // Donation Form elements
+            const donationForm = document.getElementById('donation-form');
+            const donationAmountBtns = document.querySelectorAll('.donation-amount-btn');
+            const customAmountInput = document.getElementById('custom-amount-input');
+            const donateBtn = document.getElementById('donate-btn');
+
+            // Modals
+            const thankYouModal = document.getElementById('thank-you-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const thankYouMessageDiv = document.getElementById('thank-you-message');
+
+            // --- Theme Functions ---
+            const initTheme = () => {
+                const storedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+                    html.classList.add('dark');
+                } else {
+                    html.classList.remove('dark');
+                }
+            };
+
+            const toggleTheme = (theme) => {
+                if (theme === 'dark') {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                }
+            };
+
+            // --- Translation Functions ---
+            const setLanguage = (lang) => {
+                currentLang = lang;
+                localStorage.setItem('fairvendLang', lang);
+
+                elementsToTranslate.forEach(el => {
+                    const key = el.getAttribute('data-key') || el.getAttribute('data-key-placeholder');
+                    if (key && translations[lang][key]) {
+                        if (el.hasAttribute('data-key-placeholder')) {
+                            el.setAttribute('placeholder', translations[lang][key]);
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+
+                // Update dynamic button text (if needed, e.g., donate button after success)
+                donateBtn.innerHTML = translations[lang].donateBtnSecure;
+            };
+
+            const initLanguage = () => {
+                if (!localStorage.getItem('fairvendLang')) {
+                    // Show language modal if no language is set
+                    languageModal.classList.remove('hidden');
+                } else {
+                    // Set language from storage
+                    setLanguage(currentLang);
+                }
+            };
+
+            // --- CAPTCHA Functions ---
+            const generateCaptcha = () => {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                let captcha = '';
+                for (let i = 0; i < 6; i++) {
+                    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                correctCaptcha = captcha;
+                captchaTextDiv.textContent = captcha;
+                captchaInput.value = '';
+                captchaError.classList.add('hidden');
+            };
+
+            // --- Map Functions ---
+            let map;
+            let marker;
+            const searchInput = document.getElementById('location-input');
+            const searchBtn = document.getElementById('search-btn');
+            const searchStatus = document.getElementById('search-status');
+
+            const initMap = () => {
+                // Initialize map centered near India (e.g., Delhi)
+                map = L.map('map').setView([28.6139, 77.2090], 5); 
+
+                // Use a light map tile layer that can be filtered for dark mode
+                const lightTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                });
+
+                // Add tile layer
+                lightTileLayer.addTo(map);
+
+                // Placeholder for FairVend Machine locations
+                const machineLocations = [
+                    { lat: 28.62, lng: 77.21, name: "Connaught Place, Delhi", icon: 'blue' },
+                    { lat: 19.0760, lng: 72.8777, name: "Gateway of India, Mumbai", icon: 'red' },
+                    { lat: 13.0827, lng: 80.2707, name: "Central Railway Station, Chennai", icon: 'green' }
+                ];
+
+                // Create custom icon
+                const customIcon = (color) => new L.DivIcon({
+                    className: `custom-div-icon bg-${color}-500 dark:bg-${color}-400 rounded-full w-3 h-3 ring-4 ring-white dark:ring-slate-900/50`,
+                    iconSize: [12, 12],
+                    iconAnchor: [6, 6]
+                });
+                
+                // Add machine markers
+                machineLocations.forEach(loc => {
+                    L.marker([loc.lat, loc.lng], { icon: customIcon(loc.icon) })
+                        .addTo(map)
+                        .bindPopup(`<b>FairVend Machine</b><br>${loc.name}<br>Supports: ${loc.icon.toUpperCase()} card discounts.`);
+                });
+                
+                // Try to get user's current location
+                if (navigator.geolocation) {
+                    searchStatus.textContent = "Locating you...";
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            searchStatus.textContent = "Your location is marked.";
+                            
+                            // Create user location marker
+                            marker = L.marker([lat, lng], {
+                                icon: new L.DivIcon({
+                                    className: 'user-location-marker bg-indigo-600 rounded-full w-4 h-4 ring-4 ring-indigo-300',
+                                    iconSize: [16, 16],
+                                    iconAnchor: [8, 8]
+                                })
+                            }).addTo(map)
+                              .bindPopup("You Are Here").openPopup();
+
+                            map.setView([lat, lng], 13); // Zoom to user location
+                        },
+                        (error) => {
+                            console.error("Geolocation error:", error);
+                            searchStatus.textContent = "Could not automatically detect location. Use the search bar.";
+                        },
+                        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                    );
+                } else {
+                    searchStatus.textContent = "Geolocation is not supported by this browser. Use the search bar.";
+                }
+            };
+            
+            // --- General Helpers ---
+            const showModal = (message) => {
+                thankYouMessageDiv.textContent = message;
+                thankYouModal.classList.remove('hidden');
+            };
+
+            const hideModal = () => {
+                thankYouModal.classList.add('hidden');
+            };
+
+            // --- Event Listeners ---
+
+            // Theme switch
+            themeLightBtn.addEventListener('click', () => toggleTheme('light'));
+            themeDarkBtn.addEventListener('click', () => toggleTheme('dark'));
+
+            // Language modal buttons
+            langSelectBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = e.currentTarget.getAttribute('data-lang');
+                    setLanguage(lang);
+                    languageModal.classList.add('hidden');
+                });
+            });
+
+            // Settings dropdown toggle
+            settingsButton.addEventListener('click', () => {
+                settingsDropdown.classList.toggle('hidden');
+            });
+            document.addEventListener('click', (e) => {
+                if (!settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                    settingsDropdown.classList.add('hidden');
+                }
+            });
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu and settings dropdown on nav link click
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                    if (!settingsDropdown.classList.contains('hidden')) {
+                         settingsDropdown.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Header shrink and shadow on scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // Smooth scroll for Find Machine buttons
+            [findNearestBtn, headerFindMachineBtnDesktop, headerFindMachineBtnMobile, searchBtn].forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.currentTarget.getAttribute('href') || '#find-machine';
+                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            // Map Search Functionality (Placeholder/Simulated)
+            searchBtn.addEventListener('click', () => {
+                const location = searchInput.value.trim();
+                if (location) {
+                    searchStatus.textContent = `Searching for machines near '${location}'... (Simulated)`;
+                    // In a real application, you would use a geocoding service here
+                    setTimeout(() => {
+                        searchStatus.textContent = `2 machines found near '${location}'.`;
+                        // Simulate moving the map view
+                        map.setView([28.6139 + (Math.random() - 0.5) * 0.05, 77.2090 + (Math.random() - 0.5) * 0.05], 14);
+                    }, 1500);
+                }
+            });
+
+            // --- Slider Logic ---
+            const sliderTrack = document.getElementById('slider-track');
+            const prevSlideBtn = document.getElementById('prev-slide');
+            const nextSlideBtn = document.getElementById('next-slide');
+            let slideIndex = 0;
+            const totalSlides = sliderTrack.children.length;
+
+            const updateSlider = () => {
+                const slideWidth = sliderTrack.children[0].offsetWidth;
+                sliderTrack.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+            };
+
+            const nextSlide = () => {
+                slideIndex = (slideIndex + 1) % totalSlides;
+                updateSlider();
+            };
+
+            const prevSlide = () => {
+                slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            };
+            
+            nextSlideBtn.addEventListener('click', nextSlide);
+            prevSlideBtn.addEventListener('click', prevSlide);
+            window.addEventListener('resize', updateSlider); // Recalculate slide width on resize
+
+            // --- Donation Form Logic ---
+            
+            // Amount button selection
+            donationAmountBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                    btn.classList.add('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300');
+                    customAmountInput.value = btn.getAttribute('data-amount');
+                });
+            });
+            
+            // Clear selection when custom amount is typed
+            customAmountInput.addEventListener('input', () => {
+                 donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+            });
+
+
+            // Form Submission
+            donationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const amount = parseInt(customAmountInput.value, 10);
+                const name = document.getElementById('name-input').value.trim() || 'Anonymous Donor';
+                const inputCaptcha = captchaInput.value.trim();
+                
+                let isValid = true;
+                
+                // 1. Validate Amount
+                if (isNaN(amount) || amount <= 0) {
+                    alert("Please enter a valid donation amount.");
+                    isValid = false;
+                }
+
+                // 2. Validate CAPTCHA
+                if (inputCaptcha !== correctCaptcha) {
+                    captchaError.classList.remove('hidden');
+                    generateCaptcha(); // Generate a new one on failure
+                    isValid = false;
+                } else {
+                     captchaError.classList.add('hidden');
+                }
+
+                if (isValid) {
+                    // Simulate processing
+                    donateBtn.disabled = true;
+                    donateBtn.innerHTML = 'Processing...';
+
+                    // --- LLM Call Simulation for Thank You Note ---
+                    // This section simulates a call to a language model to generate a personalized response.
+                    const prompt = {
+                        en: `You are the voice of FairVend, a charity in India. Write a short, heartfelt, and personalized thank-you message to a donor named ${name.split(' ')[0]} who just donated ₹${amount}. Mention the positive impact of their contribution. Keep it under 50 words.`,
+                        hi: `आप फेयरवेंड की आवाज हैं, जो भारत में एक चैरिटी है। ${name.split(' ')[0]} नामक एक दाता को एक छोटा, हार्दिक और व्यक्तिगत धन्यवाद संदेश लिखें, जिन्होंने अभी-अभी ₹${amount} का दान दिया है। उनके योगदान के सकारात्मक प्रभाव का उल्लेख करें। इसे 50 शब्दों से कम रखें।`,
+                        ta: `நீங்கள் ஃபேர்வென்டின் குரல், இந்தியாவில் ஒரு தொண்டு நிறுவனம். ₹${amount} நன்கொடை அளித்த ${name.split(' ')[0]} என்ற நன்கொடையாளருக்கு ஒரு குறிய, இதயப்பூர்வமான மற்றும் தனிப்பட்ட நன்றி செய்தியை எழுதுங்கள். அவர்களின் பங்களிப்பின் நேர்மறையான தாக்கத்தைக் குறிப்பிடவும். அதை 50 வார்த்தைகளுக்குள் வைத்திருங்கள்.`
+                   }[currentLang];
+
+                   // Placeholder for the actual LLM generated response
+                   const thankYouNote = translations[currentLang].modalThankYou + ` ${name.split(' ')[0]}, your generous donation of ₹${amount} will directly fund essential goods, bringing dignity and relief to families in need. Your kindness fuels our mission!`;
+
+
+                   showModal(thankYouNote);
+                   donationForm.reset();
+                   donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                   generateCaptcha();
+                   donateBtn.disabled = false;
+                   donateBtn.innerHTML = translations[currentLang].donateBtnSecure;
+                }
+            });
+
+            closeModalBtn.addEventListener('click', hideModal);
+            thankYouModal.addEventListener('click', (e) => { if (e.target === thankYouModal) hideModal(); });
+
+            // --- Initializations ---
+            initTheme();
+            initMap();
+            initLanguage();
+            updateSlider();
+            generateCaptcha();
+        });
+    </script>
+
+</body>
+</html>
