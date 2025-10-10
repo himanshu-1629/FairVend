@@ -1,2 +1,1 @@
-This project is to help poor people .It directly connects people with capital to poor people . This website shows nearby vending machine where poor people can show their card and based on color on card they will get discount on item they need . 
-This providing discount thing will be helped by rich paper by donating on this website
+This project aims to support the underprivileged by directly connecting them with donors. The website displays nearby vending machines where people in need can use a special colour coded card. Depending on the card’s colour, they can receive special discounts on the required item. These discounts are made possible through contributions from donors who have the capital to help through the website.
