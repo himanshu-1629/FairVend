@@ -542,7 +542,7 @@
             signOut
         } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
 
             // --- Firebase Initialization ---
             const firebaseConfig = {
@@ -575,7 +575,6 @@
             const signupFormEl = document.getElementById('signup-form-element');
             const googleSignInBtn = document.getElementById('google-signin-btn');
             
-            // Profile elements
             const profileDropdownContainer = document.getElementById('profile-dropdown-container');
             const profileButton = document.getElementById('profile-button');
             const profileDropdown = document.getElementById('profile-dropdown');
@@ -584,6 +583,8 @@
             const profileLogoutBtn = document.getElementById('profile-logout-btn');
 
             const modalDonationForm = document.getElementById('modal-donation-form');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+
 
             // --- Notification Handler ---
             function showNotification(type, message, formType) {
@@ -635,22 +636,22 @@
                     const result = await getRedirectResult(auth);
                     if (result) {
                       showAuthModal(); 
+                      return true; // It was a redirect
                     }
                 } catch(error) {
                     console.error('Google Redirect Result Error:', error);
                     showNotification('error', `Google Sign-In failed: ${error.message}`, 'login');
                 }
+                return false; // Not a redirect
             }
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // User is signed in
                     console.log("Logged in as: " + user.email);
                     headerDonateBtn.classList.add('hidden');
                     profileDropdownContainer.classList.remove('hidden');
                     showDonationView(user);
                 } else {
-                    // User is signed out
                     console.log("Not logged in");
                     headerDonateBtn.classList.remove('hidden');
                     profileDropdownContainer.classList.add('hidden');
@@ -659,24 +660,26 @@
                 }
             });
 
-            handleRedirectResult();
+            const isRedirectFlow = await handleRedirectResult();
             
             // --- Language Modal ---
-            const languageModal = document.getElementById('language-modal');
-            languageModal.classList.remove('hidden'); // Show every time
-            const langSelectButtons = document.querySelectorAll('.lang-select-btn');
-            langSelectButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const selectedLang = button.getAttribute('data-lang');
-                    // setLanguage(selectedLang); // Language logic is here
-                    languageModal.classList.add('hidden');
+            if (!isRedirectFlow) {
+                const languageModal = document.getElementById('language-modal');
+                languageModal.classList.remove('hidden'); 
+                const langSelectButtons = document.querySelectorAll('.lang-select-btn');
+                langSelectButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const selectedLang = button.getAttribute('data-lang');
+                        // setLanguage(selectedLang);
+                        languageModal.classList.add('hidden');
+                        settingsDropdown.classList.add('hidden');
+                    });
                 });
-            });
+            }
 
             // --- UI Event Listeners ---
             const settingsButton = document.getElementById('settings-button');
-            const settingsDropdown = document.getElementById('settings-dropdown');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const header = document.querySelector('header');
@@ -702,10 +705,11 @@
                 if (!settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
                     settingsDropdown.classList.add('hidden');
                 }
-                if (!profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
+                if (profileButton && !profileButton.contains(e.target) && profileDropdown && !profileDropdown.contains(e.target)) {
                     profileDropdown.classList.add('hidden');
                 }
             });
+
 
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
@@ -730,14 +734,18 @@
                 if (navigator.geolocation) {
                     searchStatus.textContent = 'Requesting your location...';
                     navigator.geolocation.getCurrentPosition(
-                        (position) => { /* Location success */ 
+                        (position) => {
                             const { latitude, longitude } = position.coords;
                             map.setView([latitude, longitude], 13);
                             L.marker([latitude, longitude]).addTo(map).bindPopup('You are here.').openPopup();
                             searchStatus.textContent = 'Location found!';
                         },
-                        () => { /* Location error */ 
-                             searchStatus.textContent = 'Unable to retrieve your location.';
+                        (error) => {
+                             let message = 'Unable to retrieve your location.';
+                             if (error.code === 1) { // PERMISSION_DENIED
+                                 message = 'Location access denied. Please check your browser settings.';
+                             }
+                             searchStatus.textContent = message;
                         }
                     );
                 } else {
@@ -747,7 +755,6 @@
             findNearestBtn.addEventListener('click', handleFindNearestClick);
             headerFindMachineBtnDesktop.addEventListener('click', handleFindNearestClick);
             headerFindMachineBtnMobile.addEventListener('click', handleFindNearestClick);
-            
             
             // --- Modal Triggers & Tabs ---
             donateTriggers.forEach(trigger => {
