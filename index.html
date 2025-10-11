@@ -159,8 +159,21 @@
             </div>
 
             <div class="flex-1 flex justify-end items-center gap-3 sm:gap-4">
-                 <a href="#" class="donate-trigger bg-indigo-600 text-white font-semibold px-4 sm:px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md text-sm" data-key="navDonateNow">Donate Now</a>
+                 <a href="#" id="header-donate-btn" class="donate-trigger bg-indigo-600 text-white font-semibold px-4 sm:px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md text-sm" data-key="navDonateNow">Donate Now</a>
                 
+                 <!-- Profile Dropdown -->
+                 <div id="profile-dropdown-container" class="relative hidden">
+                    <button id="profile-button" class="p-1.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50 p-4">
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate" id="profile-username">User Name</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate mb-3" id="profile-email">user@email.com</p>
+                        <div class="border-t border-slate-200 dark:border-slate-700"></div>
+                        <a href="#" id="profile-logout-btn" class="block text-center mt-3 w-full bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition text-sm">Log Out</a>
+                    </div>
+                </div>
+
                  <!-- Settings Dropdown -->
                 <div class="relative">
                     <button id="settings-button" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
@@ -543,11 +556,12 @@
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             
-            // --- Authentication and Donation Modal Logic ---
+            // --- UI Element References ---
             const authModal = document.getElementById('auth-modal');
             const authModalContent = authModal.querySelector('div > div');
             const authCloseBtn = document.getElementById('auth-close-btn');
             const donateTriggers = document.querySelectorAll('.donate-trigger');
+            const headerDonateBtn = document.getElementById('header-donate-btn');
             
             const authView = document.getElementById('auth-view');
             const donationView = document.getElementById('donation-view');
@@ -560,8 +574,15 @@
             const loginFormEl = document.getElementById('login-form-element');
             const signupFormEl = document.getElementById('signup-form-element');
             const googleSignInBtn = document.getElementById('google-signin-btn');
-            const logoutBtn = document.getElementById('logout-btn');
             
+            // Profile elements
+            const profileDropdownContainer = document.getElementById('profile-dropdown-container');
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileUsername = document.getElementById('profile-username');
+            const profileEmail = document.getElementById('profile-email');
+            const profileLogoutBtn = document.getElementById('profile-logout-btn');
+
             const modalDonationForm = document.getElementById('modal-donation-form');
 
             // --- Notification Handler ---
@@ -577,12 +598,12 @@
                 }
                 notificationEl.classList.remove('hidden');
 
-                // Hide after 5 seconds
                 setTimeout(() => {
                     notificationEl.classList.add('hidden');
                 }, 5000);
             }
 
+            // --- Modal Controls ---
             const showAuthModal = () => {
                 authView.classList.remove('hidden');
                 donationView.classList.add('hidden');
@@ -602,12 +623,13 @@
             };
 
             const showDonationView = (user) => {
-                const welcomeName = user.displayName || user.email;
-                document.getElementById('donor-welcome-name').textContent = welcomeName;
+                profileUsername.textContent = user.displayName || 'Anonymous';
+                profileEmail.textContent = user.email;
                 authView.classList.add('hidden');
                 donationView.classList.remove('hidden');
             };
 
+            // --- Auth Logic ---
             const handleRedirectResult = async () => {
                 try {
                     const result = await getRedirectResult(auth);
@@ -620,34 +642,41 @@
                 }
             }
 
-            // --- Auth State Change Handler ---
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // User is signed in.
+                    // User is signed in
                     console.log("Logged in as: " + user.email);
+                    headerDonateBtn.classList.add('hidden');
+                    profileDropdownContainer.classList.remove('hidden');
                     showDonationView(user);
                 } else {
-                    // User is signed out.
+                    // User is signed out
                     console.log("Not logged in");
+                    headerDonateBtn.classList.remove('hidden');
+                    profileDropdownContainer.classList.add('hidden');
                     authView.classList.remove('hidden');
                     donationView.classList.add('hidden');
                 }
             });
 
             handleRedirectResult();
-
-            // --- TRANSLATION SCRIPT (omitted for brevity) ---
-            const translations = {}; // Simplified for this example
-            const setLanguage = (lang) => {}; // Simplified for this example
-            // Full translation logic remains here...
+            
+            // --- Language Modal ---
+            const languageModal = document.getElementById('language-modal');
+            languageModal.classList.remove('hidden'); // Show every time
+            const langSelectButtons = document.querySelectorAll('.lang-select-btn');
+            langSelectButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const selectedLang = button.getAttribute('data-lang');
+                    // setLanguage(selectedLang); // Language logic is here
+                    languageModal.classList.add('hidden');
+                });
+            });
 
             // --- UI Event Listeners ---
-            const languageModal = document.getElementById('language-modal');
-            const langSelectButtons = document.querySelectorAll('.lang-select-btn');
             const settingsButton = document.getElementById('settings-button');
             const settingsDropdown = document.getElementById('settings-dropdown');
-            const themeLightBtn = document.getElementById('theme-light-btn');
-            const themeDarkBtn = document.getElementById('theme-dark-btn');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const header = document.querySelector('header');
@@ -655,21 +684,72 @@
                 if (window.scrollY > 20) {
                     header.classList.add('header-scrolled');
                     header.classList.remove('header-transparent');
-
                 } else {
                     header.classList.remove('header-scrolled');
                     header.classList.add('header-transparent');
                 }
             });
-            // Full UI logic remains here...
+            settingsButton.addEventListener('click', () => {
+                settingsDropdown.classList.toggle('hidden');
+                profileDropdown.classList.add('hidden');
+            });
+             profileButton.addEventListener('click', () => {
+                profileDropdown.classList.toggle('hidden');
+                settingsDropdown.classList.add('hidden');
+            });
 
-            // --- Map Logic (omitted for brevity) ---
+            document.addEventListener('click', (e) => {
+                if (!settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                    settingsDropdown.classList.add('hidden');
+                }
+                if (!profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Map Logic ---
             const map = L.map('map').setView([20.5937, 78.9629], 5);
-            // Full map logic remains here...
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            // --- Find Machine Logic ---
+             const findNearestBtn = document.getElementById('find-nearest-btn');
+             const headerFindMachineBtnDesktop = document.getElementById('header-find-machine-btn-desktop');
+             const headerFindMachineBtnMobile = document.getElementById('header-find-machine-btn-mobile');
+             const searchStatus = document.getElementById('search-status');
+
+             const handleFindNearestClick = (e) => {
+                e.preventDefault();
+                document.getElementById('find-machine').scrollIntoView({ behavior: 'smooth' });
+                if (navigator.geolocation) {
+                    searchStatus.textContent = 'Requesting your location...';
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => { /* Location success */ 
+                            const { latitude, longitude } = position.coords;
+                            map.setView([latitude, longitude], 13);
+                            L.marker([latitude, longitude]).addTo(map).bindPopup('You are here.').openPopup();
+                            searchStatus.textContent = 'Location found!';
+                        },
+                        () => { /* Location error */ 
+                             searchStatus.textContent = 'Unable to retrieve your location.';
+                        }
+                    );
+                } else {
+                    searchStatus.textContent = 'Geolocation is not supported by your browser.';
+                }
+            };
+            findNearestBtn.addEventListener('click', handleFindNearestClick);
+            headerFindMachineBtnDesktop.addEventListener('click', handleFindNearestClick);
+            headerFindMachineBtnMobile.addEventListener('click', handleFindNearestClick);
             
-            // --- Testimonial Slider (omitted for brevity) ---
-            // Full slider logic remains here...
             
+            // --- Modal Triggers & Tabs ---
             donateTriggers.forEach(trigger => {
                 trigger.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -736,9 +816,11 @@
                 }
             });
 
-            logoutBtn.addEventListener('click', async () => {
+            profileLogoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
                 try {
                     await signOut(auth);
+                    hideAuthModal();
                 } catch (error) {
                     console.error("Logout error", error);
                     showNotification('error', error.message, 'login');
@@ -762,7 +844,7 @@
                 e.preventDefault();
                 const amount = customAmountInput.value;
                 if (!amount || parseFloat(amount) <= 0) {
-                     showNotification('error', 'Please enter a valid donation amount.', 'login'); // a bit of a hack, but works
+                     showNotification('error', 'Please enter a valid donation amount.', 'login');
                     return;
                 }
                 console.log(`Donating ₹${amount}`);
