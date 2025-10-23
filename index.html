@@ -126,6 +126,14 @@
             transition: transform 0.5s ease-in-out;
         }
     </style>
+    <script>
+        // Apply theme from localStorage on initial load to prevent flashing
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300">
     
@@ -177,13 +185,13 @@
                  <!-- Settings Dropdown -->
                 <div class="relative">
                     <button id="settings-button" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </button>
                     <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                         <div class="px-4 py-2 text-xs font-semibold text-slate-400" data-key="prefLang">Language</div>
-                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="en">English</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="hi">हिन्दी</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lang-select-btn" data-lang="ta">தமிழ்</a>
+                        <a href="#" class="lang-select-btn block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-lang="en">English</a>
+                        <a href="#" class="lang-select-btn block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-lang="hi">हिन्दी</a>
+                        <a href="#" class="lang-select-btn block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-lang="ta">தமிழ்</a>
                         <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
                         <div class="px-4 py-2 text-xs font-semibold text-slate-400" data-key="prefTheme">Theme</div>
                         <div class="flex justify-around py-1">
@@ -231,6 +239,49 @@
             </div>
         </section>
         
+        <!-- === NEW: Donor Dashboard Section === -->
+        <section id="donor-dashboard" class="hidden py-16 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-2" data-key="dashboardTitle">Welcome Back, <span id="dashboard-username">Donor</span>!</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mb-8" data-key="dashboardSubtitle">Here's our real-time funding status. Your contribution makes a direct impact.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Funding Goal -->
+                    <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-2xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-semibold text-red-600 dark:text-red-400" data-key="dashboardDeficit">Funding Deficit</span>
+                            <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                        </div>
+                        <div id="dashboard-deficit" class="text-4xl font-bold text-slate-900 dark:text-white mb-1">₹0</div>
+                        <p class="text-slate-500 dark:text-slate-400" data-key="dashboardDeficitDesc">needed to reach our monthly goal.</p>
+                    </div>
+                    
+                    <!-- Total Raised -->
+                    <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-2xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-semibold text-green-600 dark:text-green-400" data-key="dashboardRaised">Total Raised (This Month)</span>
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                        <div id="dashboard-total-donated" class="text-4xl font-bold text-slate-900 dark:text-white mb-1">₹0</div>
+                        <p class="text-slate-500 dark:text-slate-400" data-key="dashboardRaisedDesc">from generous donors like you.</p>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mt-8">
+                    <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">
+                        <span data-key="dashboardProgress">Progress</span>
+                        <span id="dashboard-progress-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
+                        <div id="dashboard-progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-600 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- === END: Donor Dashboard Section === -->
+
+
         <!-- Impact Section --><section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50">
             <div class="container mx-auto px-6">
                 <div class="text-center">
@@ -541,6 +592,150 @@
             updateProfile,
             signOut
         } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        // --- NEW: Import Firestore ---
+        import { 
+            getFirestore, 
+            doc, 
+            onSnapshot, 
+            runTransaction,
+            setDoc,
+            increment
+        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+        // --- Translations Object ---
+        // (This is a sample; a full implementation would have all keys)
+        const translations = {
+            en: {
+                chooseLangTitle: "Choose Your Language",
+                chooseLangSubtitle: "Please select your preferred language.",
+                navHowItWorks: "How It Works",
+                navImpact: "Impact",
+                navFindMachine: "Find Nearest Machine",
+                navDonateNow: "Donate Now",
+                prefLang: "Language",
+                prefTheme: "Theme",
+                heroTitle1: "Breaking",
+                heroTitle2: "Barriers",
+                heroTitle3: "to Essential Goods",
+                heroSubtitle: "Color-coded discount cards connecting those in need to affordable essentials. Your donation helps us provide up to 50% discounts at vending machines across the community.",
+                heroBtnFind: "Find Nearest Machine",
+                heroBtnDonate: "Make a Donation",
+                findPlaceholder: "e.g., 'Mumbai' or 'Connaught Place, Delhi'",
+                // ... add all other 'en' keys
+                // --- NEW: Add dashboard translations ---
+                dashboardTitle: "Welcome Back, ",
+                dashboardSubtitle: "Here's our real-time funding status. Your contribution makes a direct impact.",
+                dashboardDeficit: "Funding Deficit",
+                dashboardDeficitDesc: "needed to reach our monthly goal.",
+                dashboardRaised: "Total Raised (This Month)",
+                dashboardRaisedDesc: "from generous donors like you.",
+                dashboardProgress: "Progress",
+            },
+            hi: {
+                chooseLangTitle: "अपनी भाषा चुनें",
+                chooseLangSubtitle: "कृपया अपनी पसंदीदा भाषा चुनें।",
+                navHowItWorks: "यह कैसे काम करता है",
+                navImpact: "प्रभाव",
+                navFindMachine: "नजदीकी मशीन ढूंढें",
+                navDonateNow: "अभी दान करें",
+                prefLang: "भाषा",
+                prefTheme: "थीम",
+                heroTitle1: "आवश्यक",
+                heroTitle2: "सामानों",
+                heroTitle3: "की बाधाओं को तोड़ना",
+                heroSubtitle: "ज़रूरतमंदों को किफ़ायती ज़रूरी चीज़ों से जोड़ने वाले कलर-कोडेड डिस्काउंट कार्ड। आपका दान हमें समुदाय भर में वेंडिंग मशीनों पर 50% तक की छूट प्रदान करने में मदद करता है।",
+                heroBtnFind: "नजदीकी मशीन ढूंढें",
+                heroBtnDonate: "दान करें",
+                findPlaceholder: "उदा., 'मुंबई' या 'कनॉट प्लेस, दिल्ली'",
+                // ... add all other 'hi' keys
+                // --- NEW: Add dashboard translations ---
+                dashboardTitle: "वापसी पर स्वागत है, ",
+                dashboardSubtitle: "यहां हमारी रीयल-टाइम फंडिंग स्थिति है। आपका योगदान सीधा प्रभाव डालता है।",
+                dashboardDeficit: "फंडिंग घाटा",
+                dashboardDeficitDesc: "हमारे मासिक लक्ष्य तक पहुँचने के लिए आवश्यक है।",
+                dashboardRaised: "कुल जुटाई गई (इस महीने)",
+                dashboardRaisedDesc: "आप जैसे उदार दाताओं से।",
+                dashboardProgress: "प्रगति",
+            },
+            ta: {
+                chooseLangTitle: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
+                chooseLangSubtitle: "உங்கள் விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்.",
+                navHowItWorks: "செயல்படும் விதம்",
+                navImpact: "தாக்கம்",
+                navFindMachine: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்",
+                navDonateNow: "இப்போது நன்கொடை",
+                prefLang: "மொழி",
+                prefTheme: "தீம்",
+                heroTitle1: "அத்தியாவசிய",
+                heroTitle2: "பொருட்களுக்கான",
+                heroTitle3: "தடைகளை உடைத்தல்",
+                heroSubtitle: "தேவைப்படுபவர்களை மலிவு விலையில் அத்தியாவசியப் பொருட்களுடன் இணைக்கும் வண்ண-குறியிடப்பட்ட தள்ளுபடி அட்டைகள். சமூகத்தில் உள்ள விற்பனை இயந்திரங்களில் 50% வரை தள்ளுபடி வழங்க உங்கள் நன்கொடை எங்களுக்கு உதவுகிறது.",
+                heroBtnFind: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்",
+                heroBtnDonate: "நன்கொடை அளியுங்கள்",
+                findPlaceholder: "எ.கா., 'மும்பை' அல்லது 'கன்னாட் பிளேஸ், டெல்லி'",
+                // ... add all other 'ta' keys
+                // --- NEW: Add dashboard translations ---
+                dashboardTitle: "மீண்டும் வருக, ",
+                dashboardSubtitle: "எங்கள் நிகழ்நேர நிதி நிலை இங்கே. உங்கள் பங்களிப்பு நேரடி தாக்கத்தை ஏற்படுத்துகிறது.",
+                dashboardDeficit: "நிதிப் பற்றாக்குறை",
+                dashboardDeficitDesc: "எங்கள் மாதாந்திர இலக்கை அடையத் தேவை.",
+                dashboardRaised: "மொத்தம் திரட்டப்பட்டது (இந்த மாதம்)",
+                dashboardRaisedDesc: "உங்களைப் போன்ற தாராளமான நன்கொடையாளர்களிடமிருந்து.",
+                dashboardProgress: "முன்னேற்றம்",
+            }
+        };
+
+        // --- Language Setter Function ---
+        function setLanguage(lang) {
+            if (!translations[lang]) {
+                console.warn(`Language '${lang}' not found. Defaulting to 'en'.`);
+                lang = 'en';
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('preferredLang', lang);
+
+            // Set HTML lang attribute
+            document.documentElement.lang = lang;
+
+            // Update all text elements with data-key
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                const translation = translations[lang][key];
+                if (translation) {
+                    el.textContent = translation;
+                } else {
+                    // Fallback to English if key is missing in current lang
+                    const fallback = translations['en'][key];
+                    if (fallback) el.textContent = fallback;
+                }
+            });
+            
+            // Update all placeholder elements with data-key-placeholder
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                const translation = translations[lang][key];
+                if (translation) {
+                    el.placeholder = translation;
+                } else {
+                    const fallback = translations['en'][key];
+                    if (fallback) el.placeholder = fallback;
+                }
+            });
+
+            // Update active state of language buttons
+            const allLangButtons = document.querySelectorAll('.lang-select-btn');
+            allLangButtons.forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-indigo-600', 'text-white');
+                    btn.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-800', 'dark:text-slate-200');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white');
+                    btn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-800', 'dark:text-slate-200');
+                }
+            });
+        }
+
 
         document.addEventListener('DOMContentLoaded', async function () {
 
@@ -555,6 +750,12 @@
             };
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
+            // --- NEW: Initialize Firestore ---
+            const db = getFirestore(app);
+            // --- NEW: Firestore document reference ---
+            // This document will store our total donations and goal
+            const metricsDocRef = doc(db, "metrics", "donations");
+            let metricsListenerUnsubscribe = null; // To stop listener on logout
             
             // --- UI Element References ---
             const authModal = document.getElementById('auth-modal');
@@ -584,6 +785,36 @@
 
             const modalDonationForm = document.getElementById('modal-donation-form');
             const settingsDropdown = document.getElementById('settings-dropdown');
+
+            // --- NEW: Dashboard UI References ---
+            const donorDashboard = document.getElementById('donor-dashboard');
+            const dashboardUsername = document.getElementById('dashboard-username');
+            const dashboardDeficit = document.getElementById('dashboard-deficit');
+            const dashboardTotalDonated = document.getElementById('dashboard-total-donated');
+            const dashboardProgressBar = document.getElementById('dashboard-progress-bar');
+            const dashboardProgressPercent = document.getElementById('dashboard-progress-percent');
+
+            // --- Theme/Dark Mode Logic ---
+            const themeLightBtn = document.getElementById('theme-light-btn');
+            const themeDarkBtn = document.getElementById('theme-dark-btn');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+                settingsDropdown.classList.add('hidden'); // Close dropdown after selection
+            }
+
+            if (themeLightBtn) {
+                themeLightBtn.addEventListener('click', () => setTheme('light'));
+            }
+            if (themeDarkBtn) {
+                themeDarkBtn.addEventListener('click', () => setTheme('dark'));
+            }
 
 
             // --- Notification Handler ---
@@ -651,32 +882,96 @@
                     headerDonateBtn.classList.add('hidden');
                     profileDropdownContainer.classList.remove('hidden');
                     showDonationView(user);
+                    
+                    // --- NEW: Show dashboard and attach listener ---
+                    dashboardUsername.textContent = user.displayName || 'Donor';
+                    donorDashboard.classList.remove('hidden');
+                    attachMetricsListener(); // Attach real-time listener
+
                 } else {
                     console.log("Not logged in");
                     headerDonateBtn.classList.remove('hidden');
                     profileDropdownContainer.classList.add('hidden');
                     authView.classList.remove('hidden');
                     donationView.classList.add('hidden');
+
+                    // --- NEW: Hide dashboard and detach listener ---
+                    donorDashboard.classList.add('hidden');
+                    if (metricsListenerUnsubscribe) {
+                        metricsListenerUnsubscribe(); // Stop listening
+                    }
                 }
             });
 
-            const isRedirectFlow = await handleRedirectResult();
-            
-            // --- Language Modal ---
-            if (!isRedirectFlow) {
-                const languageModal = document.getElementById('language-modal');
-                languageModal.classList.remove('hidden'); 
-                const langSelectButtons = document.querySelectorAll('.lang-select-btn');
-                langSelectButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const selectedLang = button.getAttribute('data-lang');
-                        // setLanguage(selectedLang);
-                        languageModal.classList.add('hidden');
-                        settingsDropdown.classList.add('hidden');
-                    });
+            // --- NEW: Firestore Real-time Listener Function ---
+            function attachMetricsListener() {
+                // Ensure we don't attach multiple listeners
+                if (metricsListenerUnsubscribe) {
+                    metricsListenerUnsubscribe();
+                }
+
+                metricsListenerUnsubscribe = onSnapshot(metricsDocRef, (doc) => {
+                    if (doc.exists()) {
+                        const data = doc.data();
+                        const totalDonated = data.totalDonated || 0;
+                        const fundingGoal = data.fundingGoal || 5000000; // Default goal of 50L
+                        const deficit = Math.max(0, fundingGoal - totalDonated);
+                        const progressPercent = Math.min(100, (totalDonated / fundingGoal) * 100);
+
+                        // Format as currency (e.g., ₹25,00,000)
+                        const formatter = new Intl.NumberFormat('en-IN', {
+                            style: 'currency',
+                            currency: 'INR',
+                            maximumFractionDigits: 0
+                        });
+
+                        // Update dashboard UI
+                        dashboardTotalDonated.textContent = formatter.format(totalDonated);
+                        dashboardDeficit.textContent = formatter.format(deficit);
+                        dashboardProgressPercent.textContent = `${progressPercent.toFixed(1)}%`;
+                        dashboardProgressBar.style.width = `${progressPercent}%`;
+
+                    } else {
+                        // If doc doesn't exist, create it with default values
+                        console.log("Metrics document not found, creating one...");
+                        setDoc(metricsDocRef, {
+                            totalDonated: 2500000, // Starting value
+                            fundingGoal: 5000000  // Monthly goal
+                        }).catch(e => console.error("Error creating metrics doc: ", e));
+                    }
+                }, (error) => {
+                    console.error("Error listening to metrics: ", error);
                 });
             }
+
+            const isRedirectFlow = await handleRedirectResult();
+            
+            // --- Language Modal & Preference Logic ---
+            const savedLang = localStorage.getItem('preferredLang');
+            const languageModal = document.getElementById('language-modal');
+
+            if (!isRedirectFlow) {
+                if (savedLang) {
+                    // Language is saved, apply it
+                    setLanguage(savedLang);
+                } else {
+                    // No language saved, show the modal
+                    languageModal.classList.remove('hidden'); 
+                }
+            }
+            
+            // This listener handles clicks from BOTH the modal and the settings dropdown
+            const langSelectButtons = document.querySelectorAll('.lang-select-btn');
+            langSelectButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const selectedLang = button.getAttribute('data-lang');
+                    setLanguage(selectedLang); // This function will now save to localStorage
+                    languageModal.classList.add('hidden'); // Hide the modal if it's open
+                    settingsDropdown.classList.add('hidden'); // Hide the settings dropdown if it's open
+                });
+            });
+
 
             // --- UI Event Listeners ---
             const settingsButton = document.getElementById('settings-button');
@@ -847,18 +1142,37 @@
             customAmountInput.addEventListener('input', () => {
                  donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
             });
-            modalDonationForm.addEventListener('submit', (e) => {
+            
+            // --- MODIFIED: Donation Form Logic ---
+            modalDonationForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const amount = customAmountInput.value;
-                if (!amount || parseFloat(amount) <= 0) {
+                const amount = parseFloat(customAmountInput.value);
+                if (!amount || amount <= 0) {
                      showNotification('error', 'Please enter a valid donation amount.', 'login');
                     return;
                 }
-                console.log(`Donating ₹${amount}`);
-                hideAuthModal();
-                showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
-                modalDonationForm.reset();
-                donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                
+                // --- NEW: Update Firestore ---
+                try {
+                    // Use a transaction to safely increment the total
+                    await runTransaction(db, async (transaction) => {
+                        // We don't need to read the doc first,
+                        // increment() handles it safely on the server.
+                        transaction.update(metricsDocRef, {
+                            totalDonated: increment(amount)
+                        });
+                    });
+                    
+                    console.log(`Donating ₹${amount}`);
+                    hideAuthModal();
+                    showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
+                    modalDonationForm.reset();
+                    donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+
+                } catch (error) {
+                    console.error("Donation Transaction Failed: ", error);
+                    showNotification('error', 'Your donation could not be processed. Please try again.', 'login');
+                }
             });
 
             // --- Thank You Modal Logic ---
@@ -885,3 +1199,5 @@
 
 </body>
 </html>
+
+
