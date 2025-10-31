@@ -245,7 +245,7 @@
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden lg:hidden px-6 pb-4">
+        <div id="mobile-menu" class="hidden lg:hidden px-6 pb-4 bg-white dark:bg-slate-900 shadow-lg">
             <a href="#how-it-works" class="block py-2 text-slate-600 dark:text-slate-300 nav-home-link">How It Works</a>
             <a href="#impact" class="block py-2 text-slate-600 dark:text-slate-300 nav-home-link">Impact</a>
             <a href="#" id="header-find-machine-btn-mobile" class="block py-2 text-slate-600 dark:text-slate-300 find-machine-trigger">Find Nearest Machine</a>
@@ -525,6 +525,9 @@
         const centerMeBtn = document.getElementById('center-me');
         const headerLinks = document.querySelectorAll('.nav-home-link');
         const logoHomeLinks = document.querySelectorAll('.logo-home-link');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
 
         // Donation/Auth Modal elements (restored)
         const authModal = document.getElementById('auth-modal');
@@ -592,6 +595,9 @@
             // Show find machine triggers when on home, hide when on map
             findMachineTriggers.forEach(link => link.style.display = isMap ? 'none' : '');
             
+            // Hide mobile menu explicitly when changing views
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+
             // Special handling for map
             if (isMap) {
                 if (!mapInitialized) initMap();
@@ -720,7 +726,10 @@
 
         // --- ATTACH EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Map/Navigation Control
+            // 1. Core Navigation Fix 🛠️
+            mobileMenuButton.addEventListener('click', () => {
+                if (mobileMenu) mobileMenu.classList.toggle('hidden');
+            });
 
             // Bind all Find Machine triggers
             findMachineTriggers.forEach(btn => {
@@ -752,6 +761,7 @@
             // Handle anchor clicks within the main page content
             document.querySelectorAll('.nav-home-link').forEach(link => {
                 link.addEventListener('click', function(e) {
+                    if (mobileMenu) mobileMenu.classList.add('hidden'); // Hide menu on click 🛠️
                     if (mapSection.style.display !== 'none') {
                         e.preventDefault();
                         showPage('home');
