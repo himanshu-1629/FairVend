@@ -891,12 +891,19 @@
             const currentLang = translations[lang];
             const defaultLang = translations['en'];
 
-            document.getElementById('testimonial1Text').textContent = currentLang.testimonial1Text || defaultLang.testimonial1Text;
-            document.getElementById('testimonial1Name').textContent = currentLang.testimonial1Name || defaultLang.testimonial1Name;
-            document.getElementById('testimonial2Text').textContent = currentLang.testimonial2Text || defaultLang.testimonial2Text;
-            document.getElementById('testimonial2Name').textContent = currentLang.testimonial2Name || defaultLang.testimonial2Name;
-            document.getElementById('testimonial3Text').textContent = currentLang.testimonial3Text || defaultLang.testimonial3Text;
-            document.getElementById('testimonial3Name').textContent = currentLang.testimonial3Name || defaultLang.testimonial3Name;
+            const t1Text = document.getElementById('testimonial1Text');
+            const t1Name = document.getElementById('testimonial1Name');
+            const t2Text = document.getElementById('testimonial2Text');
+            const t2Name = document.getElementById('testimonial2Name');
+            const t3Text = document.getElementById('testimonial3Text');
+            const t3Name = document.getElementById('testimonial3Name');
+
+            if (t1Text) t1Text.textContent = currentLang.testimonial1Text || defaultLang.testimonial1Text;
+            if (t1Name) t1Name.textContent = currentLang.testimonial1Name || defaultLang.testimonial1Name;
+            if (t2Text) t2Text.textContent = currentLang.testimonial2Text || defaultLang.testimonial2Text;
+            if (t2Name) t2Name.textContent = currentLang.testimonial2Name || defaultLang.testimonial2Name;
+            if (t3Text) t3Text.textContent = currentLang.testimonial3Text || defaultLang.testimonial3Text;
+            if (t3Name) t3Name.textContent = currentLang.testimonial3Name || defaultLang.testimonial3Name;
 
 
             // Update active state of language buttons
@@ -962,7 +969,7 @@
             
             // --- UI Element References ---
             const authModal = document.getElementById('auth-modal');
-            const authModalContent = authModal.querySelector('div > div');
+            const authModalContent = authModal ? authModal.querySelector('div > div') : null;
             const authCloseBtn = document.getElementById('auth-close-btn');
             const donateTriggers = document.querySelectorAll('.donate-trigger');
             const headerDonateBtn = document.getElementById('header-donate-btn');
@@ -1020,7 +1027,7 @@
                     document.documentElement.classList.remove('dark');
                     localStorage.theme = 'light';
                 }
-                settingsDropdown.classList.add('hidden');
+                if (settingsDropdown) settingsDropdown.classList.add('hidden');
             }
 
             if (themeLightBtn) {
@@ -1051,47 +1058,48 @@
 
             // --- Modal Controls (Remains the same) ---
             const showAuthModal = () => {
-                authView.classList.remove('hidden');
-                donationView.classList.add('hidden');
-                authModal.classList.remove('hidden');
+                if (authView) authView.classList.remove('hidden');
+                if (donationView) donationView.classList.add('hidden');
+                if (authModal) authModal.classList.remove('hidden');
                 setTimeout(() => {
-                    authModal.classList.add('opacity-100');
-                    authModalContent.classList.remove('scale-95');
+                    if (authModal) authModal.classList.add('opacity-100');
+                    if (authModalContent) authModalContent.classList.remove('scale-95');
                 }, 10);
             };
 
             const hideAuthModal = () => {
-                authModal.classList.remove('opacity-100');
-                authModalContent.classList.add('scale-95');
+                if (authModal) authModal.classList.remove('opacity-100');
+                if (authModalContent) authModalContent.classList.add('scale-95');
                 setTimeout(() => {
-                    authModal.classList.add('hidden');
+                    if (authModal) authModal.classList.add('hidden');
                 }, 300);
             };
 
             const showDonationView = (user) => {
-                profileUsername.textContent = user.displayName || 'Anonymous';
-                profileEmail.textContent = user.email;
-                authView.classList.add('hidden');
-                donationView.classList.remove('hidden');
-                document.getElementById('donor-welcome-name').textContent = user.displayName || 'Donor';
+                if (profileUsername) profileUsername.textContent = user.displayName || 'Anonymous';
+                if (profileEmail) profileEmail.textContent = user.email;
+                if (authView) authView.classList.add('hidden');
+                if (donationView) donationView.classList.remove('hidden');
+                const donorWelcomeName = document.getElementById('donor-welcome-name');
+                if (donorWelcomeName) donorWelcomeName.textContent = user.displayName || 'Donor';
             };
 
             // --- Auth Logic (Remains the same) ---
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    headerDonateBtn.classList.add('hidden');
-                    profileDropdownContainer.classList.remove('hidden');
+                    if (headerDonateBtn) headerDonateBtn.classList.add('hidden');
+                    if (profileDropdownContainer) profileDropdownContainer.classList.remove('hidden');
                     showDonationView(user);
-                    dashboardUsername.textContent = user.displayName || 'Donor';
-                    donorDashboard.classList.remove('hidden');
+                    if (dashboardUsername) dashboardUsername.textContent = user.displayName || 'Donor';
+                    if (donorDashboard) donorDashboard.classList.remove('hidden');
                     attachMetricsListener();
 
                 } else {
-                    headerDonateBtn.classList.remove('hidden');
-                    profileDropdownContainer.classList.add('hidden');
-                    authView.classList.remove('hidden');
-                    donationView.classList.add('hidden');
-                    donorDashboard.classList.add('hidden');
+                    if (headerDonateBtn) headerDonateBtn.classList.remove('hidden');
+                    if (profileDropdownContainer) profileDropdownContainer.classList.add('hidden');
+                    if (authView) authView.classList.remove('hidden');
+                    if (donationView) donationView.classList.add('hidden');
+                    if (donorDashboard) donorDashboard.classList.add('hidden');
                     if (metricsListenerUnsubscribe) {
                         metricsListenerUnsubscribe();
                     }
@@ -1115,10 +1123,10 @@
                             currency: 'INR',
                             maximumFractionDigits: 0
                         });
-                        dashboardTotalDonated.textContent = formatter.format(totalDonated);
-                        dashboardDeficit.textContent = formatter.format(deficit);
-                        dashboardProgressPercent.textContent = `${progressPercent.toFixed(1)}%`;
-                        dashboardProgressBar.style.width = `${progressPercent}%`;
+                        if (dashboardTotalDonated) dashboardTotalDonated.textContent = formatter.format(totalDonated);
+                        if (dashboardDeficit) dashboardDeficit.textContent = formatter.format(deficit);
+                        if (dashboardProgressPercent) dashboardProgressPercent.textContent = `${progressPercent.toFixed(1)}%`;
+                        if (dashboardProgressBar) dashboardProgressBar.style.width = `${progressPercent}%`;
                     } else {
                         setDoc(metricsDocRef, {
                             totalDonated: 2500000,
@@ -1130,7 +1138,7 @@
                 });
             }
             
-            // --- Language Modal & Preference Logic (Remains the same) ---
+            // --- Language Modal & Preference Logic ---
             const savedLang = localStorage.getItem('preferredLang');
             const languageModal = document.getElementById('language-modal');
 
@@ -1138,7 +1146,7 @@
                 setLanguage(savedLang);
             } else {
                 setLanguage('en');
-                languageModal.classList.remove('hidden'); 
+                if (languageModal) languageModal.classList.remove('hidden'); 
             }
             
             const langSelectButtons = document.querySelectorAll('.lang-select-btn');
@@ -1147,8 +1155,8 @@
                     e.preventDefault();
                     const selectedLang = button.getAttribute('data-lang');
                     setLanguage(selectedLang);
-                    languageModal.classList.add('hidden');
-                    settingsDropdown.classList.add('hidden');
+                    if (languageModal) languageModal.classList.add('hidden');
+                    if (settingsDropdown) settingsDropdown.classList.add('hidden');
                 });
             });
 
@@ -1157,67 +1165,81 @@
             const header = document.querySelector('header');
              window.addEventListener('scroll', () => {
                 if (window.scrollY > 20) {
-                    header.classList.add('header-scrolled');
-                    header.classList.remove('header-transparent');
+                    if (header) {
+                        header.classList.add('header-scrolled');
+                        header.classList.remove('header-transparent');
+                    }
                 } else {
-                    header.classList.remove('header-scrolled');
-                    header.classList.add('header-transparent');
+                    if (header) {
+                        header.classList.remove('header-scrolled');
+                        header.classList.add('header-transparent');
+                    }
                 }
             });
-            settingsButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent document click from closing immediately
-                settingsDropdown.classList.toggle('hidden');
-                profileDropdown.classList.add('hidden');
-            });
-             profileButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent document click from closing immediately
-                profileDropdown.classList.toggle('hidden');
-                settingsDropdown.classList.add('hidden');
-            });
+            
+            // Settings Dropdown Handler (FIXED)
+            if (settingsButton) {
+                settingsButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (settingsDropdown) settingsDropdown.classList.toggle('hidden');
+                    if (profileDropdown) profileDropdown.classList.add('hidden');
+                });
+            }
+            
+            // Profile Dropdown Handler (FIXED)
+            if (profileButton) {
+                profileButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (profileDropdown) profileDropdown.classList.toggle('hidden');
+                    if (settingsDropdown) settingsDropdown.classList.add('hidden');
+                });
+            }
 
             document.addEventListener('click', (e) => {
-                // Safely check if dropdowns are open and close them if click is outside
-                if (settingsDropdown && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                if (settingsDropdown && settingsButton && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
                     settingsDropdown.classList.add('hidden');
                 }
-                if (profileDropdown && !profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
+                if (profileDropdown && profileButton && !profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
                     profileDropdown.classList.add('hidden');
                 }
             });
 
 
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
             
-            loginTab.addEventListener('click', () => {
-                loginTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
-                loginTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-                signupTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-                signupTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-            });
+            if (loginTab) {
+                loginTab.addEventListener('click', () => {
+                    loginTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    loginTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    signupTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    signupTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    if (loginForm) loginForm.classList.remove('hidden');
+                    if (signupForm) signupForm.classList.add('hidden');
+                });
+            }
 
-            signupTab.addEventListener('click', () => {
-                signupTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
-                signupTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-                loginTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-                loginTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
-                signupForm.classList.remove('hidden');
-                loginForm.classList.add('hidden');
-            });
-
+            if (signupTab) {
+                signupTab.addEventListener('click', () => {
+                    signupTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    signupTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    loginTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    loginTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    if (signupForm) signupForm.classList.remove('hidden');
+                    if (loginForm) loginForm.classList.add('hidden');
+                });
+            }
 
             // --- Testimonial Slider Logic ---
+            let currentSlide = 0;
             function updateSlider() {
-                // Check if elements exist before accessing properties
-                if (!slides.length) return; 
+                if (!slides.length || !sliderTrack) return; 
                 const slideWidth = slides[0].clientWidth;
                 sliderTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
             }
-
-            let currentSlide = 0;
 
             if (nextSlideBtn) {
                 nextSlideBtn.addEventListener('click', () => {
@@ -1233,13 +1255,12 @@
                 });
             }
             
-            // --- Map Logic ---
+            // --- Map Logic (FINAL FIX) ---
             
             // Function to plot the machine markers
             function plotMachines() {
-                if (!map) return; // Safety check
+                if (!map) return;
                 fairVendMachines.forEach(machine => {
-                    // Create the popup content for the items dispensed
                     const itemsList = machine.items.map(item => `<li>${item}</li>`).join('');
                     const popupContent = `
                         <div class="font-bold text-lg">${machine.name}</div>
@@ -1255,25 +1276,26 @@
                 });
             }
             
-            // Initialize the map once the DOM is ready
+            // Initialize the map (FIXED SEQUENCE)
             if (document.getElementById('map')) {
-                 map = L.map('map').setView([20.5937, 78.9629], 5); // Center map over India
+                 map = L.map('map').setView([20.5937, 78.9629], 5);
                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                  }).addTo(map);
                  
-                 plotMachines(); // Plot the machines immediately after map initialization
+                 plotMachines(); 
             }
 
 
             // --- Find Machine Logic (User Location) ---
              const handleFindNearestClick = (e) => {
                 e.preventDefault();
-                document.getElementById('find-machine').scrollIntoView({ behavior: 'smooth' });
+                const findMachineSection = document.getElementById('find-machine');
+                if (findMachineSection) findMachineSection.scrollIntoView({ behavior: 'smooth' });
                 
-                if (!map) {
-                     searchStatus.textContent = 'Map is not initialized. Please refresh.';
+                if (!map || !searchStatus) {
+                     console.error('Map or search status not initialized.');
                      return;
                 }
 
@@ -1288,7 +1310,7 @@
                         },
                         (error) => {
                              let message = 'Unable to retrieve your location.';
-                             if (error.code === 1) { // PERMISSION_DENIED
+                             if (error.code === 1) { 
                                  message = 'Location access denied. Please check your browser settings.';
                              }
                              searchStatus.textContent = message;
@@ -1310,42 +1332,48 @@
 
 
             // --- Firebase Auth Event Handlers (Remaining logic) ---
-            signupFormEl.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const name = document.getElementById('signup-name').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(userCredential.user, { displayName: name });
-                    showNotification('success', 'Signup successful!', 'signup');
-                } catch (error) {
-                    showNotification('error', error.message, 'signup');
-                }
-            });
+            if (signupFormEl) {
+                signupFormEl.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('signup-name').value;
+                    const email = document.getElementById('signup-email').value;
+                    const password = document.getElementById('signup-password').value;
+                    try {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        await updateProfile(userCredential.user, { displayName: name });
+                        showNotification('success', 'Signup successful!', 'signup');
+                    } catch (error) {
+                        showNotification('error', error.message, 'signup');
+                    }
+                });
+            }
 
-            loginFormEl.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showNotification('success', 'Login successful!', 'login');
-                } catch (error) {
-                    showNotification('error', error.message, 'login');
-                }
-            });
+            if (loginFormEl) {
+                loginFormEl.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                        showNotification('success', 'Login successful!', 'login');
+                    } catch (error) {
+                        showNotification('error', error.message, 'login');
+                    }
+                });
+            }
             
-            profileLogoutBtn.addEventListener('click', async (e) => {
-                e.preventDefault();
-                try {
-                    await signOut(auth);
-                    hideAuthModal();
-                } catch (error) {
-                    console.error("Logout error", error);
-                    showNotification('error', error.message, 'login');
-                }
-            });
+            if (profileLogoutBtn) {
+                profileLogoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        await signOut(auth);
+                        hideAuthModal();
+                    } catch (error) {
+                        console.error("Logout error", error);
+                        showNotification('error', error.message, 'login');
+                    }
+                });
+            }
             
             // --- Donation Form Logic (Inside Modal) ---
             const donationAmountBtns = document.querySelectorAll('.donation-amount-btn');
@@ -1354,58 +1382,68 @@
                 btn.addEventListener('click', () => {
                     donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
                     btn.classList.add('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300');
-                    customAmountInput.value = btn.dataset.amount;
+                    if (customAmountInput) customAmountInput.value = btn.dataset.amount;
                 });
             });
-            customAmountInput.addEventListener('input', () => {
-                 donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
-            });
-            
-            modalDonationForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const amount = parseFloat(customAmountInput.value);
-                if (!amount || amount <= 0) {
-                     showNotification('error', 'Please enter a valid donation amount.', 'login');
-                    return;
-                }
-                
-                try {
-                    await runTransaction(db, async (transaction) => {
-                        transaction.update(metricsDocRef, {
-                            totalDonated: increment(amount)
-                        });
-                    });
-                    
-                    hideAuthModal();
-                    showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
-                    modalDonationForm.reset();
+            if (customAmountInput) {
+                customAmountInput.addEventListener('input', () => {
                     donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                });
+            }
+            
+            if (modalDonationForm) {
+                modalDonationForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const amount = parseFloat(customAmountInput.value);
+                    if (!amount || amount <= 0) {
+                         showNotification('error', 'Please enter a valid donation amount.', 'login');
+                        return;
+                    }
+                    
+                    try {
+                        await runTransaction(db, async (transaction) => {
+                            transaction.update(metricsDocRef, {
+                                totalDonated: increment(amount)
+                            });
+                        });
+                        
+                        hideAuthModal();
+                        showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
+                        modalDonationForm.reset();
+                        donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
 
-                } catch (error) {
-                    console.error("Donation Transaction Failed: ", error);
-                    showNotification('error', 'Your donation could not be processed. Please try again.', 'login');
-                }
-            });
+                    } catch (error) {
+                        console.error("Donation Transaction Failed: ", error);
+                        showNotification('error', 'Your donation could not be processed. Please try again.', 'login');
+                    }
+                });
+            }
 
             // --- Thank You Modal Logic ---
             const thankYouModal = document.getElementById('thank-you-modal');
-            const thankYouModalContent = thankYouModal.querySelector('div');
+            const thankYouModalContent = thankYouModal ? thankYouModal.querySelector('div') : null;
             const closeModalBtn = document.getElementById('close-modal-btn');
             const thankYouMessage = document.getElementById('thank-you-message');
             
             function showThankYouModal(message) {
-                thankYouMessage.textContent = message;
-                thankYouModal.classList.remove('hidden');
-                setTimeout(() => thankYouModalContent.classList.remove('scale-95', 'opacity-0'), 10);
+                if (thankYouMessage) thankYouMessage.textContent = message;
+                if (thankYouModal) thankYouModal.classList.remove('hidden');
+                setTimeout(() => {
+                    if (thankYouModalContent) thankYouModalContent.classList.remove('scale-95', 'opacity-0');
+                }, 10);
             }
             function hideThankYouModal() {
-                 thankYouModalContent.classList.add('scale-95', 'opacity-0');
-                 setTimeout(() => thankYouModal.classList.add('hidden'), 200);
+                 if (thankYouModalContent) thankYouModalContent.classList.add('scale-95', 'opacity-0');
+                 setTimeout(() => {
+                    if (thankYouModal) thankYouModal.classList.add('hidden');
+                 }, 200);
             }
-            closeModalBtn.addEventListener('click', hideThankYouModal);
-            thankYouModal.addEventListener('click', (e) => {
-                if(e.target === thankYouModal) hideThankYouModal();
-            });
+            if (closeModalBtn) closeModalBtn.addEventListener('click', hideThankYouModal);
+            if (thankYouModal) {
+                thankYouModal.addEventListener('click', (e) => {
+                    if(e.target === thankYouModal) hideThankYouModal();
+                });
+            }
 
         });
     </script>
