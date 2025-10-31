@@ -1211,6 +1211,8 @@
 
             // --- Testimonial Slider Logic ---
             function updateSlider() {
+                // Check if elements exist before accessing properties
+                if (!slides.length) return; 
                 const slideWidth = slides[0].clientWidth;
                 sliderTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
             }
@@ -1231,10 +1233,11 @@
                 });
             }
             
-            // --- Map Logic (FIXED INITIALIZATION) ---
+            // --- Map Logic ---
             
             // Function to plot the machine markers
             function plotMachines() {
+                if (!map) return; // Safety check
                 fairVendMachines.forEach(machine => {
                     // Create the popup content for the items dispensed
                     const itemsList = machine.items.map(item => `<li>${item}</li>`).join('');
@@ -1268,6 +1271,12 @@
              const handleFindNearestClick = (e) => {
                 e.preventDefault();
                 document.getElementById('find-machine').scrollIntoView({ behavior: 'smooth' });
+                
+                if (!map) {
+                     searchStatus.textContent = 'Map is not initialized. Please refresh.';
+                     return;
+                }
+
                 if (navigator.geolocation) {
                     searchStatus.textContent = 'Requesting your location...';
                     navigator.geolocation.getCurrentPosition(
