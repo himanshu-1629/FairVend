@@ -950,229 +950,504 @@
                     items: ["Thermal Blankets (Small)", "Soap Bar", "Salty Snacks", "Tea/Coffee Sachets", "Gloves"]
                 }
             ];
-            <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // Initialize Leaflet map
-  const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
-
-  // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-
-  // Add a sample marker
-  const sampleMarker = L.marker([28.6139, 77.2090])
-    .addTo(map)
-    .bindPopup('Example FairVend Machine: Connaught Place, Delhi');
-
-  // Handle search button
-  const searchBtn = document.getElementById('search-btn');
-  const locationInput = document.getElementById('location-input');
-  const searchStatus = document.getElementById('search-status');
-
-  searchBtn.addEventListener('click', async () => {
-    const query = locationInput.value.trim();
-    if (!query) {
-      searchStatus.textContent = 'Please enter a location.';
-      return;
-    }
-    searchStatus.textContent = 'Searching...';
-
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-      if (data.length === 0) {
-        searchStatus.textContent = 'No results found.';
-        return;
-      }
-
-      const { lat, lon, display_name } = data[0];
-      map.setView([lat, lon], 13);
-      L.marker([lat, lon]).addTo(map).bindPopup(`Searched location: ${display_name}`).openPopup();
-      searchStatus.textContent = `Showing results for: ${display_name}`;
-    } catch (error) {
-      searchStatus.textContent = 'Error fetching location data.';
-      console.error(error);
-    }
-  });
-
-  // Add user location button (if supported)
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        const { latitude, longitude } = pos.coords;
-        const userMarker = L.marker([latitude, longitude], {
-          title: 'You are here'
-        })
-          .addTo(map)
-          .bindPopup('Your Current Location');
-        map.setView([latitude, longitude], 13);
-      },
-      err => console.warn('Geolocation error:', err.message)
-    );
-  }
-});
-</script>
 
 
+            // --- Firebase Initialization ---
+            const firebaseConfig = {
+                apiKey: "AIzaSyBxu9Yb6alK4m8APv_OcRl7J5x4tTi9zwM",
+                authDomain: "fairvend-6913d.firebaseapp.com",
+                projectId: "fairvend-6913d",
+                storageBucket: "fairvend-6913d.firebasestorage.app",
+                messagingSenderId: "1014559943459",
+                appId: "1:1014559943459:web:396becd9e7a19a1373ba96"
+            };
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+            const metricsDocRef = doc(db, "metrics", "donations");
+            let metricsListenerUnsubscribe = null;
+            
+            // --- UI Element References ---
+            const authModal = document.getElementById('auth-modal');
+            const authModalContent = authModal ? authModal.querySelector('div > div') : null;
+            const authCloseBtn = document.getElementById('auth-close-btn');
+            const donateTriggers = document.querySelectorAll('.donate-trigger');
+            const headerDonateBtn = document.getElementById('header-donate-btn');
+            
+            const authView = document.getElementById('auth-view');
+            const donationView = document.getElementById('donation-view');
+
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            const loginFormEl = document.getElementById('login-form-element');
+            const signupFormEl = document.getElementById('signup-form-element');
+            
+            const profileDropdownContainer = document.getElementById('profile-dropdown-container');
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileUsername = document.getElementById('profile-username');
+            const profileEmail = document.getElementById('profile-email');
+            const profileLogoutBtn = document.getElementById('profile-logout-btn');
+
+            const modalDonationForm = document.getElementById('modal-donation-form');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+
+            const donorDashboard = document.getElementById('donor-dashboard');
+            const dashboardUsername = document.getElementById('dashboard-username');
+            const dashboardDeficit = document.getElementById('dashboard-deficit');
+            const dashboardTotalDonated = document.getElementById('dashboard-total-donated');
+            const dashboardProgressBar = document.getElementById('dashboard-progress-bar');
+            const dashboardProgressPercent = document.getElementById('dashboard-progress-percent');
+            
+            const sliderTrack = document.getElementById('slider-track');
+            const prevSlideBtn = document.getElementById('prev-slide');
+            const nextSlideBtn = document.getElementById('next-slide');
+            const slides = document.querySelectorAll('#slider-track > div');
+
+            // --- Map Elements ---
+            let map; 
+            const searchStatus = document.getElementById('search-status');
+            const findNearestBtn = document.getElementById('find-nearest-btn');
+            const headerFindMachineBtnDesktop = document.getElementById('header-find-machine-btn-desktop');
+            const headerFindMachineBtnMobile = document.getElementById('header-find-machine-btn-mobile');
 
 
+            // --- Theme/Dark Mode Logic (Remains the same) ---
+            const themeLightBtn = document.getElementById('theme-light-btn');
+            const themeDarkBtn = document.getElementById('theme-dark-btn');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+                if (settingsDropdown) settingsDropdown.classList.add('hidden');
+            }
+
+            if (themeLightBtn) {
+                themeLightBtn.addEventListener('click', () => setTheme('light'));
+            }
+            if (themeDarkBtn) {
+                themeDarkBtn.addEventListener('click', () => setTheme('dark'));
+            }
+
+
+            // --- Notification Handler (Remains the same) ---
+            function showNotification(type, message, formType) {
+                const notificationEl = document.getElementById(`${formType}-notification`);
+                if (!notificationEl) return;
+                notificationEl.textContent = message;
+                notificationEl.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+                if (type === 'error') {
+                    notificationEl.classList.add('bg-red-100', 'text-red-700');
+                } else {
+                    notificationEl.classList.add('bg-green-100', 'text-green-700');
+                }
+                notificationEl.classList.remove('hidden');
+
+                setTimeout(() => {
+                    notificationEl.classList.add('hidden');
+                }, 5000);
+            }
+
+            // --- Modal Controls (Remains the same) ---
+            const showAuthModal = () => {
+                if (authView) authView.classList.remove('hidden');
+                if (donationView) donationView.classList.add('hidden');
+                if (authModal) authModal.classList.remove('hidden');
+                setTimeout(() => {
+                    if (authModal) authModal.classList.add('opacity-100');
+                    if (authModalContent) authModalContent.classList.remove('scale-95');
+                }, 10);
+            };
+
+            const hideAuthModal = () => {
+                if (authModal) authModal.classList.remove('opacity-100');
+                if (authModalContent) authModalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    if (authModal) authModal.classList.add('hidden');
+                }, 300);
+            };
+
+            const showDonationView = (user) => {
+                if (profileUsername) profileUsername.textContent = user.displayName || 'Anonymous';
+                if (profileEmail) profileEmail.textContent = user.email;
+                if (authView) authView.classList.add('hidden');
+                if (donationView) donationView.classList.remove('hidden');
+                const donorWelcomeName = document.getElementById('donor-welcome-name');
+                if (donorWelcomeName) donorWelcomeName.textContent = user.displayName || 'Donor';
+            };
+
+            // --- Auth Logic (Remains the same) ---
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    if (headerDonateBtn) headerDonateBtn.classList.add('hidden');
+                    if (profileDropdownContainer) profileDropdownContainer.classList.remove('hidden');
+                    showDonationView(user);
+                    if (dashboardUsername) dashboardUsername.textContent = user.displayName || 'Donor';
+                    if (donorDashboard) donorDashboard.classList.remove('hidden');
+                    attachMetricsListener();
+
+                } else {
+                    if (headerDonateBtn) headerDonateBtn.classList.remove('hidden');
+                    if (profileDropdownContainer) profileDropdownContainer.classList.add('hidden');
+                    if (authView) authView.classList.remove('hidden');
+                    if (donationView) donationView.classList.add('hidden');
+                    if (donorDashboard) donorDashboard.classList.add('hidden');
+                    if (metricsListenerUnsubscribe) {
+                        metricsListenerUnsubscribe();
+                    }
+                }
+            });
+
+            // --- Firestore Real-time Listener Function (Remains the same) ---
+            function attachMetricsListener() {
+                if (metricsListenerUnsubscribe) {
+                    metricsListenerUnsubscribe();
+                }
+                metricsListenerUnsubscribe = onSnapshot(metricsDocRef, (doc) => {
+                    if (doc.exists()) {
+                        const data = doc.data();
+                        const totalDonated = data.totalDonated || 0;
+                        const fundingGoal = data.fundingGoal || 5000000;
+                        const deficit = Math.max(0, fundingGoal - totalDonated);
+                        const progressPercent = Math.min(100, (totalDonated / fundingGoal) * 100);
+                        const formatter = new Intl.NumberFormat('en-IN', {
+                            style: 'currency',
+                            currency: 'INR',
+                            maximumFractionDigits: 0
+                        });
+                        if (dashboardTotalDonated) dashboardTotalDonated.textContent = formatter.format(totalDonated);
+                        if (dashboardDeficit) dashboardDeficit.textContent = formatter.format(deficit);
+                        if (dashboardProgressPercent) dashboardProgressPercent.textContent = `${progressPercent.toFixed(1)}%`;
+                        if (dashboardProgressBar) dashboardProgressBar.style.width = `${progressPercent}%`;
+                    } else {
+                        setDoc(metricsDocRef, {
+                            totalDonated: 2500000,
+                            fundingGoal: 5000000
+                        }).catch(e => console.error("Error creating metrics doc: ", e));
+                    }
+                }, (error) => {
+                    console.error("Error listening to metrics: ", error);
+                });
+            }
+            
+            // --- Language Modal & Preference Logic ---
+            const savedLang = localStorage.getItem('preferredLang');
+            const languageModal = document.getElementById('language-modal');
+
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                setLanguage('en');
+                if (languageModal) languageModal.classList.remove('hidden'); 
+            }
+            
+            const langSelectButtons = document.querySelectorAll('.lang-select-btn');
+            langSelectButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const selectedLang = button.getAttribute('data-lang');
+                    setLanguage(selectedLang);
+                    if (languageModal) languageModal.classList.add('hidden');
+                    if (settingsDropdown) settingsDropdown.classList.add('hidden');
+                });
+            });
+
+
+            // --- UI Event Listeners (Header, Dropdowns, Tabs) ---
+            const header = document.querySelector('header');
+             window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    if (header) {
+                        header.classList.add('header-scrolled');
+                        header.classList.remove('header-transparent');
+                    }
+                } else {
+                    if (header) {
+                        header.classList.remove('header-scrolled');
+                        header.classList.add('header-transparent');
+                    }
+                }
+            });
+            
+            // Settings Dropdown Handler (FIXED)
+            if (settingsButton) {
+                settingsButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    if (settingsDropdown) settingsDropdown.classList.toggle('hidden');
+                    if (profileDropdown) profileDropdown.classList.add('hidden');
+                });
+            }
+            
+            // Profile Dropdown Handler (FIXED)
+            if (profileButton) {
+                profileButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    if (profileDropdown) profileDropdown.classList.toggle('hidden');
+                    if (settingsDropdown) settingsDropdown.classList.add('hidden');
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (settingsDropdown && settingsButton && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                    settingsDropdown.classList.add('hidden');
+                }
+                if (profileDropdown && profileButton && !profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            if (loginTab) {
+                loginTab.addEventListener('click', () => {
+                    loginTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    loginTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    signupTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    signupTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    if (loginForm) loginForm.classList.remove('hidden');
+                    if (signupForm) signupForm.classList.add('hidden');
+                });
+            }
+
+            if (signupTab) {
+                signupTab.addEventListener('click', () => {
+                    signupTab.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    signupTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    loginTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    loginTab.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    if (signupForm) signupForm.classList.remove('hidden');
+                    if (loginForm) loginForm.classList.add('hidden');
+                });
+            }
+
+            // --- Testimonial Slider Logic ---
+            let currentSlide = 0;
+            function updateSlider() {
+                if (!slides.length || !sliderTrack) return; 
+                const slideWidth = slides[0].clientWidth;
+                sliderTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            }
+
+            if (nextSlideBtn) {
+                nextSlideBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    updateSlider();
+                });
+            }
+
+            if (prevSlideBtn) {
+                prevSlideBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    updateSlider();
+                });
+            }
+            
+            // --- Map Logic (FINAL FIX) ---
+            
+            // Function to plot the machine markers
+            function plotMachines() {
+                if (!map) return;
+                fairVendMachines.forEach(machine => {
+                    const itemsList = machine.items.map(item => `<li>${item}</li>`).join('');
+                    const popupContent = `
+                        <div class="font-bold text-lg">${machine.name}</div>
+                        <p class="text-sm mt-1 mb-2 text-indigo-600 dark:text-indigo-400">Available Items:</p>
+                        <ul class="list-disc list-inside text-sm">
+                            ${itemsList}
+                        </ul>
+                    `;
+
+                    L.marker(machine.coords)
+                        .addTo(map)
+                        .bindPopup(popupContent);
+                });
+            }
+            
+            // Initialize the map (FIXED SEQUENCE)
+            if (document.getElementById('map')) {
+                 map = L.map('map').setView([20.5937, 78.9629], 5);
+                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                 }).addTo(map);
+                 
+                 plotMachines(); 
+            }
+
+
+            // --- Find Machine Logic (User Location) ---
+             const handleFindNearestClick = (e) => {
+                e.preventDefault();
+                const findMachineSection = document.getElementById('find-machine');
+                if (findMachineSection) findMachineSection.scrollIntoView({ behavior: 'smooth' });
+                
+                if (!map || !searchStatus) {
+                     // Check for map initialization error but continue to allow it to be set
+                     if (searchStatus) searchStatus.textContent = 'Map is loading... please try again shortly.';
+                     return;
+                }
+
+                if (navigator.geolocation) {
+                    searchStatus.textContent = 'Requesting your location...';
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            map.setView([latitude, longitude], 13);
+                            L.marker([latitude, longitude]).addTo(map).bindPopup('You are here.').openPopup();
+                            searchStatus.textContent = 'Location found! (Your location is marked)';
+                        },
+                        (error) => {
+                             let message = 'Unable to retrieve your location.';
+                             if (error.code === 1) { 
+                                 message = 'Location access denied. Please check your browser settings.';
+                             }
+                             searchStatus.textContent = message;
+                        }
+                    );
+                } else {
+                    searchStatus.textContent = 'Geolocation is not supported by your browser.';
+                }
+            };
+            
+            if (findNearestBtn) findNearestBtn.addEventListener('click', handleFindNearestClick);
+            if (headerFindMachineBtnDesktop) headerFindMachineBtnDesktop.addEventListener('click', handleFindNearestClick);
+            if (headerFindMachineBtnMobile) headerFindMachineBtnMobile.addEventListener('click', handleFindNearestClick);
+            
+            
+            // Final Call for Testimonial Slider Initialization
+            window.addEventListener('resize', updateSlider);
+            updateSlider();
+
+
+            // --- Firebase Auth Event Handlers (Remaining logic) ---
+            if (signupFormEl) {
+                signupFormEl.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('signup-name').value;
+                    const email = document.getElementById('signup-email').value;
+                    const password = document.getElementById('signup-password').value;
+                    try {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        await updateProfile(userCredential.user, { displayName: name });
+                        showNotification('success', 'Signup successful!', 'signup');
+                    } catch (error) {
+                        showNotification('error', error.message, 'signup');
+                    }
+                });
+            }
+
+            if (loginFormEl) {
+                loginFormEl.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                        showNotification('success', 'Login successful!', 'login');
+                    } catch (error) {
+                        showNotification('error', error.message, 'login');
+                    }
+                });
+            }
+            
+            if (profileLogoutBtn) {
+                profileLogoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        await signOut(auth);
+                        hideAuthModal();
+                    } catch (error) {
+                        console.error("Logout error", error);
+                        showNotification('error', error.message, 'login');
+                    }
+                });
+            }
+            
+            // --- Donation Form Logic (Inside Modal) ---
+            const donationAmountBtns = document.querySelectorAll('.donation-amount-btn');
+            const customAmountInput = document.getElementById('modal-custom-amount');
+            donationAmountBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                    btn.classList.add('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300');
+                    if (customAmountInput) customAmountInput.value = btn.dataset.amount;
+                });
+            });
+            if (customAmountInput) {
+                customAmountInput.addEventListener('input', () => {
+                    donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+                });
+            }
+            
+            if (modalDonationForm) {
+                modalDonationForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const amount = parseFloat(customAmountInput.value);
+                    if (!amount || amount <= 0) {
+                         showNotification('error', 'Please enter a valid donation amount.', 'login');
+                        return;
+                    }
+                    
+                    try {
+                        await runTransaction(db, async (transaction) => {
+                            transaction.update(metricsDocRef, {
+                                totalDonated: increment(amount)
+                            });
+                        });
+                        
+                        hideAuthModal();
+                        showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
+                        modalDonationForm.reset();
+                        donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
+
+                    } catch (error) {
+                        console.error("Donation Transaction Failed: ", error);
+                        showNotification('error', 'Your donation could not be processed. Please try again.', 'login');
+                    }
+                });
+            }
+
+            // --- Thank You Modal Logic ---
+            const thankYouModal = document.getElementById('thank-you-modal');
+            const thankYouModalContent = thankYouModal ? thankYouModal.querySelector('div') : null;
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const thankYouMessage = document.getElementById('thank-you-message');
+            
+            function showThankYouModal(message) {
+                if (thankYouMessage) thankYouMessage.textContent = message;
+                if (thankYouModal) thankYouModal.classList.remove('hidden');
+                setTimeout(() => {
+                    if (thankYouModalContent) thankYouModalContent.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            }
+            function hideThankYouModal() {
+                 if (thankYouModalContent) thankYouModalContent.classList.add('scale-95', 'opacity-0');
+                 setTimeout(() => {
+                    if (thankYouModal) thankYouModal.classList.add('hidden');
+                 }, 200);
+            }
+            if (closeModalBtn) closeModalBtn.addEventListener('click', hideThankYouModal);
+            if (thankYouModal) {
+                thankYouModal.addEventListener('click', (e) => {
+                    if(e.target === thankYouModal) hideThankYouModal();
+                });
+            }
+
+        });
     </script>
-                        <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Leaflet map
-  const map = L.map('map').setView([20.5937, 78.9629], 5);
-
-  // Add tile layer
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-
-  // Add vending machine markers
-  const machines = [
-    { name: "Delhi Gate – Delhi", coords: [28.6435, 77.2341] },
-    { name: "Dadar – Mumbai", coords: [19.0181, 72.8504] },
-    { name: "Chennai Central", coords: [13.0858, 80.2785] },
-    { name: "MG Road – Bangalore", coords: [12.9734, 77.6067] },
-    { name: "Howrah Bridge – Kolkata", coords: [22.5843, 88.3432] }
-  ];
-  machines.forEach(m =>
-    L.marker(m.coords).addTo(map).bindPopup(`<b>${m.name}</b>`)
-  );
-
-  // Handle search
-  const searchBtn = document.getElementById('search-btn');
-  const locationInput = document.getElementById('location-input');
-  const searchStatus = document.getElementById('search-status');
-
-  searchBtn.addEventListener('click', async () => {
-    const q = locationInput.value.trim();
-    if (!q) { searchStatus.textContent = 'Please enter a location.'; return; }
-    searchStatus.textContent = 'Searching...';
-
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      if (!data.length) { searchStatus.textContent = 'No results found.'; return; }
-
-      const { lat, lon, display_name } = data[0];
-      map.setView([lat, lon], 13);
-      L.marker([lat, lon]).addTo(map).bindPopup(`Searched: ${display_name}`).openPopup();
-      searchStatus.textContent = `Showing: ${display_name}`;
-    } catch {
-      searchStatus.textContent = 'Error fetching location.';
-    }
-  });
-
-  // Optional: show user location
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      const { latitude, longitude } = pos.coords;
-      L.marker([latitude, longitude]).addTo(map).bindPopup('You are here').openPopup();
-      map.setView([latitude, longitude], 12);
-    });
-  }
-});
-</script>
-
-           <footer class="bg-gray-900 text-gray-300 text-center py-4">
-  © 2025 FairVend. All rights reserved. | Making essential goods accessible to everyone.
-</footer>
-
-<!-- ✅ Corrected JS starts -->
-<script type="module">
-  /* -------------------- Firebase Initialization -------------------- */
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBxu9Yb6alK4m8APv_OcRl7J5x4tTi9zwM",
-    authDomain: "fairvend-6913d.firebaseapp.com",
-    projectId: "fairvend-6913d",
-    storageBucket: "fairvend-6913d.appspot.com",
-    messagingSenderId: "1014559943459",
-    appId: "1:1014559943459:web:396becd9e7a19a1373ba96"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  /* -------------------- Leaflet Map Setup -------------------- */
-  document.addEventListener('DOMContentLoaded', () => {
-    const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
-
-    // Add tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    // FairVend machine markers
-    const fairvendMachines = [
-      { name: "Delhi Gate – Delhi", coords: [28.6435, 77.2341] },
-      { name: "Dadar – Mumbai", coords: [19.0181, 72.8504] },
-      { name: "Chennai Central", coords: [13.0858, 80.2785] },
-      { name: "MG Road – Bangalore", coords: [12.9734, 77.6067] },
-      { name: "Howrah Bridge – Kolkata", coords: [22.5843, 88.3432] }
-    ];
-
-    fairvendMachines.forEach(machine => {
-      L.marker(machine.coords)
-        .addTo(map)
-        .bindPopup(`<b>${machine.name}</b><br>FairVend Machine`);
-    });
-
-    // Search functionality
-    const searchBtn = document.getElementById('search-btn');
-    const locationInput = document.getElementById('location-input');
-    const searchStatus = document.getElementById('search-status');
-
-    searchBtn.addEventListener('click', async () => {
-      const query = locationInput.value.trim();
-      if (!query) {
-        searchStatus.textContent = 'Please enter a location.';
-        return;
-      }
-      searchStatus.textContent = 'Searching...';
-
-      try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-        const data = await res.json();
-        if (data.length === 0) {
-          searchStatus.textContent = 'No results found.';
-          return;
-        }
-
-        const { lat, lon, display_name } = data[0];
-        map.setView([lat, lon], 13);
-        L.marker([lat, lon]).addTo(map).bindPopup(`Searched: ${display_name}`).openPopup();
-        searchStatus.textContent = `Showing: ${display_name}`;
-      } catch {
-        searchStatus.textContent = 'Error fetching location.';
-      }
-    });
-
-    // Optional: show user location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        const { latitude, longitude } = pos.coords;
-        L.marker([latitude, longitude])
-          .addTo(map)
-          .bindPopup('You are here')
-          .openPopup();
-        map.setView([latitude, longitude], 12);
-      });
-    }
-  });
-</script>
-<!-- ✅ Corrected JS ends -->
-
-</body>
-</html>
-             
 
 </body>
 </html>
