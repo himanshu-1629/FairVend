@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FairVend - Breaking Barriers to Essential Goods</title>
     
-    <!-- Tailwind CSS for styling --><script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Leaflet.js for Maps --><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Google Fonts: Inter --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -127,6 +127,10 @@
         }
     </style>
     <script>
+        // Support for dark mode in Tailwind
+        tailwind.config = {
+          darkMode: 'class',
+        }
         // Apply theme from localStorage on initial load to prevent flashing
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
@@ -137,7 +141,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300">
     
-    <!-- Language Selection Modal -->
     <div id="language-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[100] p-4">
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
             <h3 class="text-2xl font-bold text-slate-900 dark:text-white" data-key="chooseLangTitle">Choose Your Language</h3>
@@ -151,7 +154,7 @@
     </div>
 
 
-    <!-- Header Navigation --><header class="header-transparent sticky top-0 z-50 transition-all duration-300">
+    <header class="header-transparent sticky top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-6 py-5 flex justify-between items-center transition-all duration-300">
             <div class="flex-1 flex justify-start">
                 <a href="#" class="flex items-center gap-2 text-2xl font-bold">
@@ -169,7 +172,6 @@
             <div class="flex-1 flex justify-end items-center gap-3 sm:gap-4">
                  <a href="#" id="header-donate-btn" class="donate-trigger bg-indigo-600 text-white font-semibold px-4 sm:px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md text-sm" data-key="navDonateNow">Donate Now</a>
                 
-                 <!-- Profile Dropdown -->
                  <div id="profile-dropdown-container" class="relative hidden">
                     <button id="profile-button" class="p-1.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -182,8 +184,7 @@
                     </div>
                 </div>
 
-                 <!-- Settings Dropdown -->
-                <div class="relative">
+                 <div class="relative">
                     <button id="settings-button" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </button>
@@ -210,7 +211,7 @@
                 </button>
             </div>
         </nav>
-        <!-- Mobile Menu --><div id="mobile-menu" class="hidden lg:hidden px-6 pb-4">
+        <div id="mobile-menu" class="hidden lg:hidden px-6 pb-4">
             <a href="#how-it-works" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navHowItWorks_mobile">How It Works</a>
             <a href="#impact" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navImpact_mobile">Impact</a>
             <a href="#find-machine" id="header-find-machine-btn-mobile" class="block py-2 text-slate-600 dark:text-slate-300" data-key="navFindMachine_mobile">Find Nearest Machine</a>
@@ -218,7 +219,7 @@
     </header>
 
     <main>
-        <!-- Hero Section --><section class="relative bg-slate-800">
+        <section class="relative bg-slate-800">
             <div class="absolute inset-0">
                 <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2070&auto=format&fit=crop" alt="A person giving food to someone in need" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-slate-900/70"></div>
@@ -239,14 +240,12 @@
             </div>
         </section>
         
-        <!-- === NEW: Donor Dashboard Section === -->
         <section id="donor-dashboard" class="hidden py-16 bg-white dark:bg-slate-800">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-2" data-key="dashboardTitle">Welcome Back, <span id="dashboard-username">Donor</span>!</h2>
                 <p class="text-lg text-slate-600 dark:text-slate-300 mb-8" data-key="dashboardSubtitle">Here's our real-time funding status. Your contribution makes a direct impact.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Funding Goal -->
                     <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-2xl shadow-lg">
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-sm font-semibold text-red-600 dark:text-red-400" data-key="dashboardDeficit">Funding Deficit</span>
@@ -256,7 +255,6 @@
                         <p class="text-slate-500 dark:text-slate-400" data-key="dashboardDeficitDesc">needed to reach our monthly goal.</p>
                     </div>
                     
-                    <!-- Total Raised -->
                     <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-2xl shadow-lg">
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-sm font-semibold text-green-600 dark:text-green-400" data-key="dashboardRaised">Total Raised (This Month)</span>
@@ -267,7 +265,6 @@
                     </div>
                 </div>
 
-                <!-- Progress Bar -->
                 <div class="mt-8">
                     <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">
                         <span data-key="dashboardProgress">Progress</span>
@@ -279,10 +276,7 @@
                 </div>
             </div>
         </section>
-        <!-- === END: Donor Dashboard Section === -->
-
-
-        <!-- Impact Section --><section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50">
+        <section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50">
             <div class="container mx-auto px-6">
                 <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="impactTitle">Our Collective Impact</h2>
@@ -290,51 +284,47 @@
                 </div>
                 <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
                     <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
-                        <div class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">₹2.5M+</div>
+                        <div class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400" data-key="impactFundsAmount">₹2.5M+</div>
                         <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300" data-key="impactFundsTitle">Total Funds Raised</div>
                         <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="impactFundsDesc">From thousands of generous donors across the country.</p>
                     </div>
                      <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
-                        <div class="text-5xl font-extrabold text-green-600 dark:text-green-400">50,000+</div>
+                        <div class="text-5xl font-extrabold text-green-600 dark:text-green-400" data-key="impactPeopleAmount">50,000+</div>
                         <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300" data-key="impactPeopleTitle">Individuals Supported</div>
                         <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="impactPeopleDesc">Provided with essential goods through our vending network.</p>
                     </div>
                 </div>
 
-                <!-- Testimonials Slider -->
                 <div class="mt-20">
                     <h3 class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white" data-key="testimonialsTitle">Stories from Our Community</h3>
                     <div class="relative max-w-2xl mx-auto mt-8">
                         <div class="overflow-hidden">
                             <div id="slider-track" class="flex slider-track">
-                                <!-- Slide 1 -->
                                 <div class="w-full flex-shrink-0 px-4">
                                     <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
                                         <div class="text-amber-400 flex justify-center gap-1 mb-4">
                                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                         </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial1Text">"As a student, every rupee matters. The FairVend card has been a blessing, helping me buy snacks and essentials without worrying. It feels like someone cares."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial1Name">- Ananya, Student from Mumbai</div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" id="testimonial1Text"></p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" id="testimonial1Name"></div>
                                     </div>
                                 </div>
-                                <!-- Slide 2 -->
                                 <div class="w-full flex-shrink-0 px-4">
                                      <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
                                         <div class="text-amber-400 flex justify-center gap-1 mb-4">
                                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                         </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial2Text">"After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief. Thank you, FairVend, for your support."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial2Name">- Rajesh, Worker from Delhi</div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" id="testimonial2Text"></p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" id="testimonial2Name"></div>
                                     </div>
                                 </div>
-                                <!-- Slide 3 -->
                                 <div class="w-full flex-shrink-0 px-4">
                                      <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
                                         <div class="text-amber-400 flex justify-center gap-1 mb-4">
                                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                         </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic" data-key="testimonial3Text">"The dignity this program provides is immeasurable. Getting essentials for my family without feeling like I'm asking for a handout has made all the difference."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" data-key="testimonial3Name">- Priya, Mother from Chennai</div>
+                                        <p class="text-slate-600 dark:text-slate-300 italic" id="testimonial3Text"></p>
+                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100" id="testimonial3Name"></div>
                                     </div>
                                 </div>
                             </div>
@@ -351,26 +341,26 @@
             </div>
         </section>
 
-        <!-- How It Works Section --><section id="how-it-works" class="py-20 md:py-28">
+        <section id="how-it-works" class="py-20 md:py-28">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="howTitle">A Simple System for a Big Impact</h2>
                 <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300" data-key="howSubtitle">We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.</p>
                 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-                    <!-- Step 1 --><div class="card-gradient-indigo p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-indigo-500/10 transition-shadow transform hover:-translate-y-2">
+                    <div class="card-gradient-indigo p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-indigo-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                         </div>
                         <h3 class="mt-6 text-xl font-bold dark:text-white" data-key="howStep1Title">Get Your Card</h3>
                         <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="howStep1Desc">In partnership with local NGOs, we distribute FairVend cards. Each color represents a different level of support.</p>
                     </div>
-                    <!-- Step 2 --><div class="card-gradient-green p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-green-500/10 transition-shadow transform hover:-translate-y-2">
+                    <div class="card-gradient-green p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-green-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </div>
                         <h3 class="mt-6 text-xl font-bold dark:text-white" data-key="howStep2Title">Scan the Color</h3>
                         <p class="mt-2 text-slate-500 dark:text-slate-400" data-key="howStep2Desc">Simply show your card to the vending machine's scanner. Our system instantly recognizes and applies the discount.</p>
                     </div>
-                    <!-- Step 3 --><div class="card-gradient-amber p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-amber-500/10 transition-shadow transform hover:-translate-y-2">
+                    <div class="card-gradient-amber p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-amber-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M12 6h.01M6 12h.01M18 12h.01M7 7h.01M17 7h.01M7 17h.01M17 17h.01"></path></svg>
                         </div>
@@ -381,7 +371,7 @@
             </div>
         </section>
 
-        <!-- Find a Machine Section --><section id="find-machine" class="py-20 md:py-28 bg-gradient-to-b from-white to-indigo-50 dark:from-slate-900 dark:to-slate-800/50">
+        <section id="find-machine" class="py-20 md:py-28 bg-gradient-to-b from-white to-indigo-50 dark:from-slate-900 dark:to-slate-800/50">
             <div class="container mx-auto px-6">
                 <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white" data-key="findTitle">Find a FairVend Machine Near You</h2>
@@ -399,10 +389,10 @@
         </section>
     </main>
 
-    <!-- Footer --><footer class="bg-slate-800 text-slate-300 pt-16 pb-8">
+    <footer class="bg-slate-800 text-slate-300 pt-16 pb-8">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
-                <!-- Column 1: Brand --><div class="md:col-span-2 lg:col-span-1">
+                <div class="md:col-span-2 lg:col-span-1">
                     <a href="#" class="flex items-center gap-2 text-2xl font-bold text-white">
                         <svg class="w-8 h-8 text-indigo-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.6356 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.6356 1.49472 7.02472 3.75736 4.75736C6.02 2.49 9.64999 2.42 12.001 4.52853Z"></path></svg>
                         <span>FairVend</span>
@@ -410,7 +400,7 @@
                     <p class="mt-4 text-slate-400 text-sm max-w-xs" data-key="footerDesc">Fair access to essential goods through community-powered discounts.</p>
                 </div>
 
-                <!-- Column 2: Quick Links --><div>
+                <div>
                     <h3 class="font-semibold text-white tracking-wider" data-key="footerQuickLinks">Quick Links</h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li><a href="#how-it-works" class="text-slate-400 hover:text-white transition-colors" data-key="footerLinkHow">How It Works</a></li>
@@ -420,16 +410,16 @@
                     </ul>
                 </div>
 
-                <!-- Column 3: Contact --><div>
+                <div>
                     <h3 class="font-semibold text-white tracking-wider" data-key="footerContact">Contact</h3>
                     <ul class="mt-4 space-y-3 text-sm">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 mt-0.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            <a href="mailto:help@fairvend.org" class="text-slate-400 hover:text-white transition-colors">help@fairvend.org</a>
+                            <a href="mailto:help@fairvend.org" class="text-slate-400 hover:text-white transition-colors" data-key="footerEmail">help@fairvend.org</a>
                         </li>
                          <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 mt-0.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            <span class="text-slate-400">+91 1800-123-4567</span>
+                            <span class="text-slate-400" data-key="footerPhone">+91 1800-123-4567</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 mt-0.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -438,7 +428,7 @@
                     </ul>
                 </div>
                 
-                <!-- Column 4: Newsletter --><div>
+                <div>
                     <h3 class="font-semibold text-white tracking-wider" data-key="footerUpdates">Get Impact Updates</h3>
                     <form class="mt-4 flex">
                         <input type="email" data-key-placeholder="footerEmailPlaceholder" placeholder="your@email.com" class="w-full rounded-l-md border-0 py-2.5 px-3 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 text-sm">
@@ -460,7 +450,6 @@
         </div>
     </footer>
     
-    <!-- Authentication Modal (Log In / Sign Up) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[100] p-4 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md transform transition-transform duration-300 scale-95">
             <div class="relative p-8">
@@ -476,7 +465,6 @@
                         </div>
                     </div>
                     
-                    <!-- Login Form -->
                     <div id="login-form">
                         <div id="login-notification" class="hidden text-sm text-center p-2 mb-4 rounded-md"></div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Welcome Back!</h3>
@@ -492,12 +480,10 @@
                                     <input type="password" id="login-password" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 py-2.5 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white dark:bg-slate-700" placeholder="••••••••" required>
                                 </div>
                             </div>
-                            <a href="#" class="block text-right text-sm text-indigo-600 dark:text-indigo-400 hover:underline mt-2">Forgot Password?</a>
                             <button type="submit" class="mt-6 w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition">Log In</button>
                         </form>
                     </div>
 
-                    <!-- Sign Up Form -->
                     <div id="signup-form" class="hidden">
                         <div id="signup-notification" class="hidden text-sm text-center p-2 mb-4 rounded-md"></div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Join FairVend</h3>
@@ -521,20 +507,7 @@
                         </form>
                     </div>
                     
-                    <!-- Social Login Divider -->
-                    <div class="my-6 flex items-center">
-                        <div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
-                        <span class="flex-shrink mx-4 text-xs font-semibold text-slate-400">OR</span>
-                        <div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
-                    </div>
-
-                    <!-- Google Sign In Button -->
-                    <button id="google-signin-btn" class="w-full flex items-center justify-center gap-3 py-2.5 px-4 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                        <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="m24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.223 0-9.655-3.657-11.303-8.591l-6.571 4.819C9.656 39.663 16.318 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 35.39 44 30.01 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
-                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">Continue with Google</span>
-                    </button>
                 </div>
-                <!-- Donation View (after login) -->
                 <div id="donation-view" class="hidden">
                     <div class="flex justify-between items-center mb-4">
                         <div>
@@ -567,7 +540,7 @@
         </div>
     </div>
     
-     <!-- Thank You Modal --><div id="thank-you-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[110] p-4">
+     <div id="thank-you-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[110] p-4">
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform transition-all scale-95 opacity-0">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900/50">
                 <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -586,9 +559,6 @@
             onAuthStateChanged, 
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
-            signInWithRedirect,
-            getRedirectResult,
-            GoogleAuthProvider,
             updateProfile,
             signOut
         } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
@@ -602,10 +572,10 @@
             increment
         } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-        // --- Translations Object ---
-        // (This is a sample; a full implementation would have all keys)
+        // --- Translations Object (MODIFIED: Added missing keys and dynamic testimonials) ---
         const translations = {
             en: {
+                // Header/Navigation/Prefs
                 chooseLangTitle: "Choose Your Language",
                 chooseLangSubtitle: "Please select your preferred language.",
                 navHowItWorks: "How It Works",
@@ -614,15 +584,21 @@
                 navDonateNow: "Donate Now",
                 prefLang: "Language",
                 prefTheme: "Theme",
+                navHowItWorks_mobile: "How It Works", // Mobile Keys
+                navImpact_mobile: "Impact",
+                navFindMachine_mobile: "Find Nearest Machine",
+                
+                // Hero Section
+                fundedAmount: "₹2.5M+ Funded",
+                livesImpacted: "50,000+ Lives Impacted",
                 heroTitle1: "Breaking",
                 heroTitle2: "Barriers",
                 heroTitle3: "to Essential Goods",
                 heroSubtitle: "Color-coded discount cards connecting those in need to affordable essentials. Your donation helps us provide up to 50% discounts at vending machines across the community.",
                 heroBtnFind: "Find Nearest Machine",
                 heroBtnDonate: "Make a Donation",
-                findPlaceholder: "e.g., 'Mumbai' or 'Connaught Place, Delhi'",
-                // ... add all other 'en' keys
-                // --- NEW: Add dashboard translations ---
+
+                // Dashboard
                 dashboardTitle: "Welcome Back, ",
                 dashboardSubtitle: "Here's our real-time funding status. Your contribution makes a direct impact.",
                 dashboardDeficit: "Funding Deficit",
@@ -630,8 +606,67 @@
                 dashboardRaised: "Total Raised (This Month)",
                 dashboardRaisedDesc: "from generous donors like you.",
                 dashboardProgress: "Progress",
+
+                // Impact Section
+                impactTitle: "Our Collective Impact",
+                impactSubtitle: "Transparency is at the heart of what we do. See how your contributions are making a tangible difference in real-time.",
+                impactFundsAmount: "₹2.5M+",
+                impactFundsTitle: "Total Funds Raised",
+                impactFundsDesc: "From thousands of generous donors across the country.",
+                impactPeopleAmount: "50,000+",
+                impactPeopleTitle: "Individuals Supported",
+                impactPeopleDesc: "Provided with essential goods through our vending network.",
+
+                // Testimonials (DYNAMIC CONTENT)
+                testimonialsTitle: "Stories from Our Community",
+                testimonial1Text: "As a student, every rupee matters. The FairVend card has been a blessing, helping me buy snacks and essentials without worrying. It feels like someone cares.",
+                testimonial1Name: "- Ananya, Student from Mumbai",
+                testimonial2Text: "After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief. Thank you, FairVend, for your support.",
+                testimonial2Name: "- Rajesh, Worker from Delhi",
+                testimonial3Text: "The dignity this program provides is immeasurable. Getting essentials for my family without feeling like I'm asking for a handout has made all the difference.",
+                testimonial3Name: "- Priya, Mother from Chennai",
+                
+                // How It Works
+                howTitle: "A Simple System for a Big Impact",
+                howSubtitle: "We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.",
+                howStep1Title: "Get Your Card",
+                howStep1Desc: "In partnership with local NGOs, we distribute FairVend cards. Each color represents a different level of support.",
+                howStep2Title: "Scan the Color",
+                howStep2Desc: "Simply show your card to the vending machine's scanner. Our system instantly recognizes and applies the discount.",
+                howStep3Title: "Receive Your Discount",
+                howStep3Desc: "Your discount is funded by generous donors, providing essential items at a more affordable price.",
+                
+                // Find Machine
+                findTitle: "Find a FairVend Machine Near You",
+                findSubtitle: "Enter your area or city to locate the closest machine and get directions.",
+                findPlaceholder: "e.g., 'Mumbai' or 'Connaught Place, Delhi'",
+                findBtnSearch: "Search",
+
+                // Footer
+                footerDesc: "Fair access to essential goods through community-powered discounts.",
+                footerQuickLinks: "Quick Links",
+                footerLinkHow: "How It Works",
+                footerLinkFind: "Find Machine",
+                footerLinkDonate: "Donate",
+                footerLinkImpact: "Our Impact",
+                footerContact: "Contact",
+                footerEmail: "help@fairvend.org",
+                footerPhone: "+91 1800-123-4567",
+                footerLocation: "Bangalore, India",
+                footerUpdates: "Get Impact Updates",
+                footerEmailPlaceholder: "your@email.com",
+                footerSubscribe: "Subscribe",
+                footerTagTransparent: "100% Transparent",
+                footerRights: "© 2025 FairVend. All rights reserved.",
+                footerSlogan: "Making essential goods accessible to everyone.",
+
+                // Modals
+                modalThankYou: "Thank You!",
+                modalMessage: "Your generous donation will make a real difference.",
+                modalClose: "Close",
             },
             hi: {
+                // Header/Navigation/Prefs
                 chooseLangTitle: "अपनी भाषा चुनें",
                 chooseLangSubtitle: "कृपया अपनी पसंदीदा भाषा चुनें।",
                 navHowItWorks: "यह कैसे काम करता है",
@@ -640,15 +675,21 @@
                 navDonateNow: "अभी दान करें",
                 prefLang: "भाषा",
                 prefTheme: "थीम",
+                navHowItWorks_mobile: "यह कैसे काम करता है",
+                navImpact_mobile: "प्रभाव",
+                navFindMachine_mobile: "नजदीकी मशीन ढूंढें",
+
+                // Hero Section
+                fundedAmount: "₹2.5M+ वित्त पोषित",
+                livesImpacted: "50,000+ जीवन प्रभावित",
                 heroTitle1: "आवश्यक",
                 heroTitle2: "सामानों",
                 heroTitle3: "की बाधाओं को तोड़ना",
                 heroSubtitle: "ज़रूरतमंदों को किफ़ायती ज़रूरी चीज़ों से जोड़ने वाले कलर-कोडेड डिस्काउंट कार्ड। आपका दान हमें समुदाय भर में वेंडिंग मशीनों पर 50% तक की छूट प्रदान करने में मदद करता है।",
                 heroBtnFind: "नजदीकी मशीन ढूंढें",
                 heroBtnDonate: "दान करें",
-                findPlaceholder: "उदा., 'मुंबई' या 'कनॉट प्लेस, दिल्ली'",
-                // ... add all other 'hi' keys
-                // --- NEW: Add dashboard translations ---
+
+                // Dashboard
                 dashboardTitle: "वापसी पर स्वागत है, ",
                 dashboardSubtitle: "यहां हमारी रीयल-टाइम फंडिंग स्थिति है। आपका योगदान सीधा प्रभाव डालता है।",
                 dashboardDeficit: "फंडिंग घाटा",
@@ -656,8 +697,67 @@
                 dashboardRaised: "कुल जुटाई गई (इस महीने)",
                 dashboardRaisedDesc: "आप जैसे उदार दाताओं से।",
                 dashboardProgress: "प्रगति",
+
+                // Impact Section
+                impactTitle: "हमारा सामूहिक प्रभाव",
+                impactSubtitle: "पारदर्शिता हमारे काम के केंद्र में है। देखें कि आपका योगदान वास्तविक समय में कैसे tangible फर्क ला रहा है।",
+                impactFundsAmount: "₹2.5M+",
+                impactFundsTitle: "कुल जुटाए गए फंड",
+                impactFundsDesc: "देश भर के हजारों उदार दाताओं से।",
+                impactPeopleAmount: "50,000+",
+                impactPeopleTitle: "समर्थित व्यक्ति",
+                impactPeopleDesc: "हमारे वेंडिंग नेटवर्क के माध्यम से आवश्यक वस्तुएं प्रदान की गईं।",
+                
+                // Testimonials (DYNAMIC CONTENT)
+                testimonialsTitle: "हमारे समुदाय की कहानियाँ",
+                testimonial1Text: "एक छात्र के रूप में, हर रुपया मायने रखता है। फेयरवेंड कार्ड एक वरदान रहा है, जिससे मुझे बिना चिंता किए स्नैक्स और आवश्यक सामान खरीदने में मदद मिली है। ऐसा लगता है कि कोई परवाह करता है।",
+                testimonial1Name: "- अनन्या, मुंबई से छात्र",
+                testimonial2Text: "एक लंबे दिन के काम के बाद, मेरी बेटी के लिए सस्ती ड्रिंक और सैनिटरी उत्पाद मिलना एक बड़ी राहत है। आपके समर्थन के लिए धन्यवाद, फेयरवेंड।",
+                testimonial2Name: "- राजेश, दिल्ली से कार्यकर्ता",
+                testimonial3Text: "यह कार्यक्रम जो गरिमा प्रदान करता है, वह अतुलनीय है। यह महसूस किए बिना कि मैं मदद मांग रहा हूं, अपने परिवार के लिए आवश्यक चीजें प्राप्त करने से बहुत फर्क पड़ा है।",
+                testimonial3Name: "- प्रिया, चेन्नई से माँ",
+
+                // How It Works
+                howTitle: "एक बड़े प्रभाव के लिए एक सरल प्रणाली",
+                howSubtitle: "हम प्रत्यक्ष, पारदर्शी और गरिमापूर्ण समर्थन में विश्वास करते हैं। यहां बताया गया है कि हमारी कलर-कोडेड डिस्काउंट प्रणाली कैसे काम करती है।",
+                howStep1Title: "अपना कार्ड प्राप्त करें",
+                howStep1Desc: "स्थानीय गैर सरकारी संगठनों के साथ साझेदारी में, हम फेयरवेंड कार्ड वितरित करते हैं। प्रत्येक रंग समर्थन के एक अलग स्तर का प्रतिनिधित्व करता है।",
+                howStep2Title: "रंग को स्कैन करें",
+                howStep2Desc: "बस वेंडिंग मशीन के स्कैनर को अपना कार्ड दिखाएं। हमारा सिस्टम तुरंत छूट को पहचानता है और लागू करता है।",
+                howStep3Title: "अपनी छूट प्राप्त करें",
+                howStep3Desc: "आपकी छूट उदार दाताओं द्वारा वित्त पोषित है, जो आवश्यक वस्तुओं को अधिक किफायती मूल्य पर प्रदान करती है।",
+
+                // Find Machine
+                findTitle: "अपने पास एक फेयरवेंड मशीन ढूंढें",
+                findSubtitle: "नजदीकी मशीन का पता लगाने और दिशा-निर्देश प्राप्त करने के लिए अपना क्षेत्र या शहर दर्ज करें।",
+                findPlaceholder: "उदा., 'मुंबई' या 'कनॉट प्लेस, दिल्ली'",
+                findBtnSearch: "खोजें",
+                
+                // Footer
+                footerDesc: "समुदाय-संचालित छूट के माध्यम से आवश्यक वस्तुओं तक उचित पहुंच।",
+                footerQuickLinks: "त्वरित लिंक",
+                footerLinkHow: "यह कैसे काम करता है",
+                footerLinkFind: "मशीन ढूंढें",
+                footerLinkDonate: "दान करें",
+                footerLinkImpact: "हमारा प्रभाव",
+                footerContact: "संपर्क",
+                footerEmail: "help@fairvend.org",
+                footerPhone: "+91 1800-123-4567",
+                footerLocation: "बैंगलोर, भारत",
+                footerUpdates: "प्रभाव अपडेट प्राप्त करें",
+                footerEmailPlaceholder: "आपका@ईमेल.कॉम",
+                footerSubscribe: "सदस्यता लें",
+                footerTagTransparent: "100% पारदर्शी",
+                footerRights: "© 2025 फेयरवेंड। सभी अधिकार सुरक्षित।",
+                footerSlogan: "आवश्यक वस्तुओं को सभी के लिए सुलभ बनाना।",
+
+                // Modals
+                modalThankYou: "धन्यवाद!",
+                modalMessage: "आपका उदार दान वास्तव में बदलाव लाएगा।",
+                modalClose: "बंद करें",
             },
             ta: {
+                // Header/Navigation/Prefs
                 chooseLangTitle: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
                 chooseLangSubtitle: "உங்கள் விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்.",
                 navHowItWorks: "செயல்படும் விதம்",
@@ -666,15 +766,21 @@
                 navDonateNow: "இப்போது நன்கொடை",
                 prefLang: "மொழி",
                 prefTheme: "தீம்",
+                navHowItWorks_mobile: "செயல்படும் விதம்",
+                navImpact_mobile: "தாக்கம்",
+                navFindMachine_mobile: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்",
+
+                // Hero Section
+                fundedAmount: "₹2.5M+ நிதியளிப்பு",
+                livesImpacted: "50,000+ உயிர்கள் பாதிக்கப்பட்டன",
                 heroTitle1: "அத்தியாவசிய",
                 heroTitle2: "பொருட்களுக்கான",
                 heroTitle3: "தடைகளை உடைத்தல்",
                 heroSubtitle: "தேவைப்படுபவர்களை மலிவு விலையில் அத்தியாவசியப் பொருட்களுடன் இணைக்கும் வண்ண-குறியிடப்பட்ட தள்ளுபடி அட்டைகள். சமூகத்தில் உள்ள விற்பனை இயந்திரங்களில் 50% வரை தள்ளுபடி வழங்க உங்கள் நன்கொடை எங்களுக்கு உதவுகிறது.",
                 heroBtnFind: "அருகிலுள்ள இயந்திரத்தைக் கண்டறியவும்",
                 heroBtnDonate: "நன்கொடை அளியுங்கள்",
-                findPlaceholder: "எ.கா., 'மும்பை' அல்லது 'கன்னாட் பிளேஸ், டெல்லி'",
-                // ... add all other 'ta' keys
-                // --- NEW: Add dashboard translations ---
+
+                // Dashboard
                 dashboardTitle: "மீண்டும் வருக, ",
                 dashboardSubtitle: "எங்கள் நிகழ்நேர நிதி நிலை இங்கே. உங்கள் பங்களிப்பு நேரடி தாக்கத்தை ஏற்படுத்துகிறது.",
                 dashboardDeficit: "நிதிப் பற்றாக்குறை",
@@ -682,10 +788,68 @@
                 dashboardRaised: "மொத்தம் திரட்டப்பட்டது (இந்த மாதம்)",
                 dashboardRaisedDesc: "உங்களைப் போன்ற தாராளமான நன்கொடையாளர்களிடமிருந்து.",
                 dashboardProgress: "முன்னேற்றம்",
+
+                // Impact Section
+                impactTitle: "எங்கள் கூட்டு தாக்கம்",
+                impactSubtitle: "வெளிப்படைத்தன்மை எங்கள் செயல்பாட்டின் மையத்தில் உள்ளது. உங்கள் பங்களிப்புகள் உண்மையான நேரத்தில் எவ்வாறு உறுதியான மாற்றத்தை ஏற்படுத்துகின்றன என்பதைப் பாருங்கள்.",
+                impactFundsAmount: "₹2.5M+",
+                impactFundsTitle: "மொத்தமாக திரட்டப்பட்ட நிதிகள்",
+                impactFundsDesc: "நாடு முழுவதும் உள்ள ஆயிரக்கணக்கான தாராளமான நன்கொடையாளர்களிடமிருந்து.",
+                impactPeopleAmount: "50,000+",
+                impactPeopleTitle: "ஆதரவளிக்கப்பட்ட தனிநபர்கள்",
+                impactPeopleDesc: "எங்கள் விற்பனை இயந்திர வலையமைப்பு மூலம் அத்தியாவசியப் பொருட்கள் வழங்கப்பட்டன.",
+                
+                // Testimonials (DYNAMIC CONTENT)
+                testimonialsTitle: "எங்கள் சமூகத்திலிருந்து கதைகள்",
+                testimonial1Text: "ஒரு மாணவியாக, ஒவ்வொரு ரூபாயும் முக்கியமானது. FairVend அட்டை ஒரு வரப்பிரசாதமாக உள்ளது, கவலைப்படாமல் சிற்றுண்டி மற்றும் அத்தியாவசியப் பொருட்களை வாங்க உதவுகிறது. யாரோ அக்கறை கொள்கிறார்கள் போல் உணர்கிறேன்.",
+                testimonial1Name: "- அனன்யா, மும்பை மாணவி",
+                testimonial2Text: "நீண்ட நாள் வேலைக்குப் பிறகு, என் மகளுக்கு மலிவு விலையில் பானங்கள் மற்றும் சுகாதாரப் பொருட்களை அணுகுவது பெரிய நிம்மதி. உங்கள் ஆதரவுக்கு நன்றி, FairVend.",
+                testimonial2Name: "- ராஜேஷ், டெல்லி தொழிலாளி",
+                testimonial3Text: "இந்த திட்டம் வழங்கும் கண்ணியம் அளவிட முடியாதது. யாசகம் கேட்பது போல் உணராமல் என் குடும்பத்திற்கு அத்தியாவசியப் பொருட்களைப் பெறுவது அனைத்து வித்தியாசத்தையும் ஏற்படுத்தியுள்ளது.",
+                testimonial3Name: "- பிரியா, சென்னை தாய்",
+
+                // How It Works
+                howTitle: "ஒரு பெரிய தாக்கத்திற்கான ஒரு எளிய அமைப்பு",
+                howSubtitle: "நேரடியான, வெளிப்படையான மற்றும் கண்ணியமான ஆதரவில் நாங்கள் நம்புகிறோம். எங்கள் வண்ண-குறியிடப்பட்ட தள்ளுபடி அமைப்பு எவ்வாறு செயல்படுகிறது என்பது இங்கே.",
+                howStep1Title: "உங்கள் அட்டையைப் பெறுங்கள்",
+                howStep1Desc: "உள்ளூர் தன்னார்வ தொண்டு நிறுவனங்களுடன் இணைந்து, நாங்கள் FairVend அட்டைகளை விநியோகிக்கிறோம். ஒவ்வொரு நிறமும் வெவ்வேறு நிலை ஆதரவைக் குறிக்கிறது.",
+                howStep2Title: "நிறத்தை ஸ்கேன் செய்யுங்கள்",
+                howStep2Desc: "விற்பனை இயந்திரத்தின் ஸ்கேனரில் உங்கள் அட்டையைக் காட்டினால் போதும். எங்கள் அமைப்பு உடனடியாகத் தள்ளுபடியை அடையாளம் கண்டு பயன்படுத்துகிறது.",
+                howStep3Title: "உங்கள் தள்ளுபடியைப் பெறுங்கள்",
+                howStep3Desc: "உங்கள் தள்ளுபடி தாராளமான நன்கொடையாளர்களால் நிதியளிக்கப்படுகிறது, அத்தியாவசியப் பொருட்களை மிகவும் மலிவு விலையில் வழங்குகிறது.",
+                
+                // Find Machine
+                findTitle: "உங்களுக்கு அருகில் உள்ள FairVend இயந்திரத்தைக் கண்டறியவும்",
+                findSubtitle: "அருகிலுள்ள இயந்திரத்தைக் கண்டறிந்து திசைகளைப் பெற உங்கள் பகுதி அல்லது நகரத்தை உள்ளிடவும்.",
+                findPlaceholder: "எ.கா., 'மும்பை' அல்லது 'கன்னாட் பிளேஸ், டெல்லி'",
+                findBtnSearch: "தேடல்",
+
+                // Footer
+                footerDesc: "சமூகத்தால் இயக்கப்படும் தள்ளுபடிகள் மூலம் அத்தியாவசியப் பொருட்களுக்கு நியாயமான அணுகல்.",
+                footerQuickLinks: "விரைவு இணைப்புகள்",
+                footerLinkHow: "செயல்படும் விதம்",
+                footerLinkFind: "இயந்திரத்தைக் கண்டறியவும்",
+                footerLinkDonate: "நன்கொடை",
+                footerLinkImpact: "எங்கள் தாக்கம்",
+                footerContact: "தொடர்பு",
+                footerEmail: "help@fairvend.org",
+                footerPhone: "+91 1800-123-4567",
+                footerLocation: "பெங்களூர், இந்தியா",
+                footerUpdates: "தாக்க புதுப்பிப்புகளைப் பெறுங்கள்",
+                footerEmailPlaceholder: "உங்கள்@மின்னஞ்சல்.காம்",
+                footerSubscribe: "சந்தா செலுத்துங்கள்",
+                footerTagTransparent: "100% வெளிப்படையானது",
+                footerRights: "© 2025 FairVend. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+                footerSlogan: "அத்தியாவசியப் பொருட்களை அனைவருக்கும் அணுகும்படி செய்தல்.",
+
+                // Modals
+                modalThankYou: "நன்றி!",
+                modalMessage: "உங்கள் தாராளமான நன்கொடை ஒரு உண்மையான மாற்றத்தை ஏற்படுத்தும்.",
+                modalClose: "மூடு",
             }
         };
 
-        // --- Language Setter Function ---
+        // --- Language Setter Function (MODIFIED: Added testimonial and other element updates) ---
         function setLanguage(lang) {
             if (!translations[lang]) {
                 console.warn(`Language '${lang}' not found. Defaulting to 'en'.`);
@@ -722,6 +886,15 @@
                     if (fallback) el.placeholder = fallback;
                 }
             });
+            
+            // --- NEW: Update dynamic testimonial content ---
+            document.getElementById('testimonial1Text').textContent = translations[lang].testimonial1Text || translations['en'].testimonial1Text;
+            document.getElementById('testimonial1Name').textContent = translations[lang].testimonial1Name || translations['en'].testimonial1Name;
+            document.getElementById('testimonial2Text').textContent = translations[lang].testimonial2Text || translations['en'].testimonial2Text;
+            document.getElementById('testimonial2Name').textContent = translations[lang].testimonial2Name || translations['en'].testimonial2Name;
+            document.getElementById('testimonial3Text').textContent = translations[lang].testimonial3Text || translations['en'].testimonial3Text;
+            document.getElementById('testimonial3Name').textContent = translations[lang].testimonial3Name || translations['en'].testimonial3Name;
+
 
             // Update active state of language buttons
             const allLangButtons = document.querySelectorAll('.lang-select-btn');
@@ -734,6 +907,9 @@
                     btn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-800', 'dark:text-slate-200');
                 }
             });
+            
+            // Re-run the slider position logic to ensure the track is reset if needed
+            // This is handled by the initial DOMContentLoaded script, so we don't need it here.
         }
 
 
@@ -774,7 +950,6 @@
             
             const loginFormEl = document.getElementById('login-form-element');
             const signupFormEl = document.getElementById('signup-form-element');
-            const googleSignInBtn = document.getElementById('google-signin-btn');
             
             const profileDropdownContainer = document.getElementById('profile-dropdown-container');
             const profileButton = document.getElementById('profile-button');
@@ -859,22 +1034,11 @@
                 profileEmail.textContent = user.email;
                 authView.classList.add('hidden');
                 donationView.classList.remove('hidden');
+                document.getElementById('donor-welcome-name').textContent = user.displayName || 'Donor';
             };
 
             // --- Auth Logic ---
-            const handleRedirectResult = async () => {
-                try {
-                    const result = await getRedirectResult(auth);
-                    if (result) {
-                      showAuthModal(); 
-                      return true; // It was a redirect
-                    }
-                } catch(error) {
-                    console.error('Google Redirect Result Error:', error);
-                    showNotification('error', `Google Sign-In failed: ${error.message}`, 'login');
-                }
-                return false; // Not a redirect
-            }
+            const isRedirectFlow = false; // Google auth removed
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -943,21 +1107,17 @@
                     console.error("Error listening to metrics: ", error);
                 });
             }
-
-            const isRedirectFlow = await handleRedirectResult();
             
             // --- Language Modal & Preference Logic ---
             const savedLang = localStorage.getItem('preferredLang');
             const languageModal = document.getElementById('language-modal');
 
-            if (!isRedirectFlow) {
-                if (savedLang) {
-                    // Language is saved, apply it
-                    setLanguage(savedLang);
-                } else {
-                    // No language saved, show the modal
-                    languageModal.classList.remove('hidden'); 
-                }
+            // Apply default language first if no redirect flow was detected
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                setLanguage('en'); // Default to English
+                languageModal.classList.remove('hidden'); 
             }
             
             // This listener handles clicks from BOTH the modal and the settings dropdown
@@ -973,7 +1133,7 @@
             });
 
 
-            // --- UI Event Listeners ---
+            // --- UI Event Listeners (Header, Dropdowns) ---
             const settingsButton = document.getElementById('settings-button');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -1009,6 +1169,32 @@
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
+            
+            // --- Testimonial Slider Logic (MODIFIED: Refined logic) ---
+            const sliderTrack = document.getElementById('slider-track');
+            const prevSlideBtn = document.getElementById('prev-slide');
+            const nextSlideBtn = document.getElementById('next-slide');
+            const slides = document.querySelectorAll('#slider-track > div');
+            let currentSlide = 0;
+
+            function updateSlider() {
+                const slideWidth = slides[0].clientWidth;
+                sliderTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            }
+
+            nextSlideBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlider();
+            });
+
+            prevSlideBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlider();
+            });
+
+            window.addEventListener('resize', updateSlider);
+            updateSlider(); // Initial call
+
 
             // --- Map Logic ---
             const map = L.map('map').setView([20.5937, 78.9629], 5);
@@ -1109,15 +1295,6 @@
                 }
             });
             
-            googleSignInBtn.addEventListener('click', async () => {
-                const provider = new GoogleAuthProvider();
-                try {
-                    await signInWithRedirect(auth, provider);
-                } catch (error) {
-                    showNotification('error', error.message, 'login');
-                }
-            });
-
             profileLogoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
                 try {
@@ -1199,6 +1376,3 @@
 
 </body>
 </html>
-
-
-
