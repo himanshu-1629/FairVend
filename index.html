@@ -950,6 +950,70 @@
                     items: ["Thermal Blankets (Small)", "Soap Bar", "Salty Snacks", "Tea/Coffee Sachets", "Gloves"]
                 }
             ];
+            <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Initialize Leaflet map
+  const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add a sample marker
+  const sampleMarker = L.marker([28.6139, 77.2090])
+    .addTo(map)
+    .bindPopup('Example FairVend Machine: Connaught Place, Delhi');
+
+  // Handle search button
+  const searchBtn = document.getElementById('search-btn');
+  const locationInput = document.getElementById('location-input');
+  const searchStatus = document.getElementById('search-status');
+
+  searchBtn.addEventListener('click', async () => {
+    const query = locationInput.value.trim();
+    if (!query) {
+      searchStatus.textContent = 'Please enter a location.';
+      return;
+    }
+    searchStatus.textContent = 'Searching...';
+
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data.length === 0) {
+        searchStatus.textContent = 'No results found.';
+        return;
+      }
+
+      const { lat, lon, display_name } = data[0];
+      map.setView([lat, lon], 13);
+      L.marker([lat, lon]).addTo(map).bindPopup(`Searched location: ${display_name}`).openPopup();
+      searchStatus.textContent = `Showing results for: ${display_name}`;
+    } catch (error) {
+      searchStatus.textContent = 'Error fetching location data.';
+      console.error(error);
+    }
+  });
+
+  // Add user location button (if supported)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude, longitude } = pos.coords;
+        const userMarker = L.marker([latitude, longitude], {
+          title: 'You are here'
+        })
+          .addTo(map)
+          .bindPopup('Your Current Location');
+        map.setView([latitude, longitude], 13);
+      },
+      err => console.warn('Geolocation error:', err.message)
+    );
+  }
+});
+</script>
+
 
 
             // --- Firebase Initialization ---
