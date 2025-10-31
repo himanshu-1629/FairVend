@@ -242,7 +242,7 @@
         
         <section id="donor-dashboard" class="hidden py-16 bg-white dark:bg-slate-800">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-2" data-key="dashboardTitle">Welcome Back, <span id="dashboard-username">Donor</span>!</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white" data-key="dashboardTitle">Welcome Back, <span id="dashboard-username">Donor</span>!</h2>
                 <p class="text-lg text-slate-600 dark:text-slate-300 mb-8" data-key="dashboardSubtitle">Here's our real-time funding status. Your contribution makes a direct impact.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -723,18 +723,18 @@
                 howStep1Title: "अपना कार्ड प्राप्त करें",
                 howStep1Desc: "स्थानीय गैर सरकारी संगठनों के साथ साझेदारी में, हम फेयरवेंड कार्ड वितरित करते हैं। प्रत्येक रंग समर्थन के एक अलग स्तर का प्रतिनिधित्व करता है।",
                 howStep2Title: "रंग को स्कैन करें",
-                howStep2Desc: "बस वेंडिंग मशीन के स्कैनर को अपना कार्ड दिखाएं। हमारा सिस्टम तुरंत छूट को पहचानता है और लागू करता ہے۔",
+                howStep2Desc: "बस वेंडिंग मशीन के स्कैनर को अपना कार्ड दिखाएं। हमारा सिस्टम तुरंत छूट को पहचानता है और लागू करता है।",
                 howStep3Title: "अपनी छूट प्राप्त करें",
                 howStep3Desc: "आपकी छूट उदार दाताओं द्वारा वित्त पोषित है, जो आवश्यक वस्तुओं को अधिक किफायती मूल्य पर प्रदान करती है।",
 
                 // Find Machine
                 findTitle: "अपने पास एक फेयरवेंड मशीन ढूंढें",
-                findSubtitle: "नजदीकी मशीन का पता लगाने और दिशा-निर्देश प्राप्त करने के लिए अपना क्षेत्र या शहर दर्ज करें۔",
+                findSubtitle: "नजदीकी मशीन का पता लगाने और दिशा-निर्देश प्राप्त करने के लिए अपना क्षेत्र या शहर दर्ज करें।",
                 findPlaceholder: "उदा., 'मुंबई' या 'कनॉट प्लेस, दिल्ली'",
                 findBtnSearch: "खोजें",
                 
                 // Footer
-                footerDesc: "समुदाय-संचालित छूट के माध्यम से आवश्यक वस्तुओं तक उचित पहुंच۔",
+                footerDesc: "समुदाय-संचालित छूट के माध्यम से आवश्यक वस्तुओं तक उचित पहुंच।",
                 footerQuickLinks: "त्वरित लिंक",
                 footerLinkHow: "यह कैसे काम करता है",
                 footerLinkFind: "मशीन ढूंढें",
@@ -748,12 +748,12 @@
                 footerEmailPlaceholder: "आपका@ईमेल.कॉम",
                 footerSubscribe: "सदस्यता लें",
                 footerTagTransparent: "100% पारदर्शी",
-                footerRights: "© 2025 फेयरवेंड۔ सभी अधिकार सुरक्षित۔",
-                footerSlogan: "आवश्यक वस्तुओं को सभी के लिए सुलभ बनाना۔",
+                footerRights: "© 2025 फेयरवेंड। सभी अधिकार सुरक्षित।",
+                footerSlogan: "आवश्यक वस्तुओं को सभी के लिए सुलभ बनाना।",
 
                 // Modals
                 modalThankYou: "धन्यवाद!",
-                modalMessage: "आपका उदार दान वास्तव में बदलाव लाएगा۔",
+                modalMessage: "आपका उदार दान वास्तव में बदलाव लाएगा।",
                 modalClose: "बंद करें",
             },
             ta: {
@@ -920,7 +920,7 @@
         }
 
 
-        document.addEventListener('DOMContentLoaded', async function () {
+        document.addEventListener('DOMContentLoaded', function () {
             
             // --- FairVend Machine Data ---
             const fairVendMachines = [
@@ -952,19 +952,32 @@
             ];
 
 
-            // --- Firebase Initialization ---
-            const firebaseConfig = {
-                apiKey: "AIzaSyBxu9Yb6alK4m8APv_OcRl7J5x4tTi9zwM",
-                authDomain: "fairvend-6913d.firebaseapp.com",
-                projectId: "fairvend-6913d",
-                storageBucket: "fairvend-6913d.firebasestorage.app",
-                messagingSenderId: "1014559943459",
-                appId: "1:1014559943459:web:396becd9e7a19a1373ba96"
-            };
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-            const metricsDocRef = doc(db, "metrics", "donations");
+            // --- Firebase Initialization (Using IIFE pattern for synchronous setup) ---
+            const initializeFirebase = (() => {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBxu9Yb6alK4m8APv_OcRl7J5x4tTi9zwM",
+                    authDomain: "fairvend-6913d.firebaseapp.com",
+                    projectId: "fairvend-6913d",
+                    storageBucket: "fairvend-6913d.firebasestorage.app",
+                    messagingSenderId: "1014559943459",
+                    appId: "1:1014559943459:web:396becd9e7a19a1373ba96"
+                };
+                
+                try {
+                    const app = firebase.initializeApp(firebaseConfig);
+                    return {
+                        auth: firebase.auth(),
+                        db: firebase.firestore(),
+                        metricsDocRef: firebase.firestore().doc("metrics/donations")
+                    };
+                } catch (e) {
+                    console.error("Firebase SDK not loaded or initialization failed:", e);
+                    // Return mock objects if Firebase fails to load to prevent script crash
+                    return { auth: null, db: null, metricsDocRef: null };
+                }
+            })();
+
+            const { auth, db, metricsDocRef } = initializeFirebase;
             let metricsListenerUnsubscribe = null;
             
             // --- UI Element References ---
@@ -1085,34 +1098,37 @@
             };
 
             // --- Auth Logic (Remains the same) ---
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    if (headerDonateBtn) headerDonateBtn.classList.add('hidden');
-                    if (profileDropdownContainer) profileDropdownContainer.classList.remove('hidden');
-                    showDonationView(user);
-                    if (dashboardUsername) dashboardUsername.textContent = user.displayName || 'Donor';
-                    if (donorDashboard) donorDashboard.classList.remove('hidden');
-                    attachMetricsListener();
+            if (auth) {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        if (headerDonateBtn) headerDonateBtn.classList.add('hidden');
+                        if (profileDropdownContainer) profileDropdownContainer.classList.remove('hidden');
+                        showDonationView(user);
+                        if (dashboardUsername) dashboardUsername.textContent = user.displayName || 'Donor';
+                        if (donorDashboard) donorDashboard.classList.remove('hidden');
+                        attachMetricsListener();
 
-                } else {
-                    if (headerDonateBtn) headerDonateBtn.classList.remove('hidden');
-                    if (profileDropdownContainer) profileDropdownContainer.classList.add('hidden');
-                    if (authView) authView.classList.remove('hidden');
-                    if (donationView) donationView.classList.add('hidden');
-                    if (donorDashboard) donorDashboard.classList.add('hidden');
-                    if (metricsListenerUnsubscribe) {
-                        metricsListenerUnsubscribe();
+                    } else {
+                        if (headerDonateBtn) headerDonateBtn.classList.remove('hidden');
+                        if (profileDropdownContainer) profileDropdownContainer.classList.add('hidden');
+                        if (authView) authView.classList.remove('hidden');
+                        if (donationView) donationView.classList.add('hidden');
+                        if (donorDashboard) donorDashboard.classList.add('hidden');
+                        if (metricsListenerUnsubscribe) {
+                            metricsListenerUnsubscribe();
+                        }
                     }
-                }
-            });
+                });
+            }
 
             // --- Firestore Real-time Listener Function (Remains the same) ---
             function attachMetricsListener() {
+                if (!db || !metricsDocRef) return;
                 if (metricsListenerUnsubscribe) {
                     metricsListenerUnsubscribe();
                 }
-                metricsListenerUnsubscribe = onSnapshot(metricsDocRef, (doc) => {
-                    if (doc.exists()) {
+                metricsListenerUnsubscribe = db.onSnapshot(metricsDocRef, (doc) => {
+                    if (doc.exists) {
                         const data = doc.data();
                         const totalDonated = data.totalDonated || 0;
                         const fundingGoal = data.fundingGoal || 5000000;
@@ -1128,7 +1144,8 @@
                         if (dashboardProgressPercent) dashboardProgressPercent.textContent = `${progressPercent.toFixed(1)}%`;
                         if (dashboardProgressBar) dashboardProgressBar.style.width = `${progressPercent}%`;
                     } else {
-                        setDoc(metricsDocRef, {
+                        // Attempt to create the document if it doesn't exist
+                        db.setDoc(metricsDocRef, {
                             totalDonated: 2500000,
                             fundingGoal: 5000000
                         }).catch(e => console.error("Error creating metrics doc: ", e));
@@ -1284,6 +1301,7 @@
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                  }).addTo(map);
                  
+                 // Plot markers after map initialization
                  plotMachines(); 
             }
 
@@ -1295,7 +1313,6 @@
                 if (findMachineSection) findMachineSection.scrollIntoView({ behavior: 'smooth' });
                 
                 if (!map || !searchStatus) {
-                     // Check for map initialization error but continue to allow it to be set
                      if (searchStatus) searchStatus.textContent = 'Map is loading... please try again shortly.';
                      return;
                 }
@@ -1340,8 +1357,8 @@
                     const email = document.getElementById('signup-email').value;
                     const password = document.getElementById('signup-password').value;
                     try {
-                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                        await updateProfile(userCredential.user, { displayName: name });
+                        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                        await userCredential.user.updateProfile({ displayName: name });
                         showNotification('success', 'Signup successful!', 'signup');
                     } catch (error) {
                         showNotification('error', error.message, 'signup');
@@ -1355,7 +1372,7 @@
                     const email = document.getElementById('login-email').value;
                     const password = document.getElementById('login-password').value;
                     try {
-                        await signInWithEmailAndPassword(auth, email, password);
+                        await auth.signInWithEmailAndPassword(email, password);
                         showNotification('success', 'Login successful!', 'login');
                     } catch (error) {
                         showNotification('error', error.message, 'login');
@@ -1367,7 +1384,7 @@
                 profileLogoutBtn.addEventListener('click', async (e) => {
                     e.preventDefault();
                     try {
-                        await signOut(auth);
+                        await auth.signOut();
                         hideAuthModal();
                     } catch (error) {
                         console.error("Logout error", error);
@@ -1402,14 +1419,17 @@
                     }
                     
                     try {
-                        await runTransaction(db, async (transaction) => {
+                        await db.runTransaction(async (transaction) => {
+                            // Note: Using traditional update syntax as the imported increment is causing issues
+                            const docSnapshot = await transaction.get(metricsDocRef);
+                            const currentTotal = docSnapshot.data().totalDonated || 0;
                             transaction.update(metricsDocRef, {
-                                totalDonated: increment(amount)
+                                totalDonated: currentTotal + amount
                             });
                         });
                         
                         hideAuthModal();
-                        showThankYouModal(`Thank you, ${auth.currentUser.displayName || 'donor'}, for your generous donation of ₹${amount}!`);
+                        showThankYouModal(`Thank you, ${auth.currentUser ? auth.currentUser.displayName || 'donor' : 'donor'}, for your generous donation of ₹${amount}!`);
                         modalDonationForm.reset();
                         donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
 
