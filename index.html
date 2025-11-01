@@ -35,53 +35,7 @@
         /* Custom styles */
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* === PARTICLE BACKGROUND STYLES (FINAL SUBTLE VERSION) === */
-        @keyframes moveParticles1 { 0% { background-position: 0 0; } 100% { background-position: 400px 400px; } }
-        @keyframes moveParticles2 { 0% { background-position: 0 0; } 100% { background-position: -600px -600px; } }
-        @keyframes moveParticles3 { 0% { background-position: 0 0; } 100% { background-position: 800px 800px; } }
-
-        .particle-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Ensure particles are behind content but visible */
-            pointer-events: none; /* Allows clicks/interactions with content underneath */
-        }
-
-        #particles-layer-1 {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.635) 1.6px, transparent 0); /* Very faint, small dots */
-            background-size: 180px 180px; /* Wider spacing */
-            animation: moveParticles1 50s linear infinite; /* Very slow movement */
-        }
-        #particles-layer-2 {
-            background-image: radial-gradient(rgba(173, 216, 230, 0.671) 1.4px, transparent 0); /* Even fainter, subtle blue tint */
-            background-size: 250px 250px; /* Much wider spacing */
-            animation: moveParticles2 75s linear infinite; /* Slow movement */
-        }
-        #particles-layer-3 {
-            background-image: radial-gradient(rgba(255, 221, 0, 0.657) 1.6px, transparent 0); /* Faint amber, slightly larger */
-            background-size: 300px 300px; /* Very wide spacing */
-            animation: moveParticles3 175s linear infinite; /* Medium-slow movement */
-        }
-        #particles-layer-1 {
-            background-image: radial-gradient(#ffffffb8 1.5px, transparent 0); /* Very faint, small dots */
-            background-size: 280px 280px; /* Wider spacing */
-            animation: moveParticles1 50s linear infinite; /* Very slow movement */
-        }
-        #particles-layer-1 {
-            background-image: radial-gradient(#dc5f5fcd 1.4px, transparent 0); /* Very faint, small dots */
-            background-size: 210px 210px; /* Wider spacing */
-            animation: moveParticles1 50s linear infinite; /* Very slow movement */
-        }
         
-        #particles-layer-2 {
-            background-image: radial-gradient(hsla(124, 89%, 47%, 0.671) 1.4px, transparent 0); /* Even fainter, subtle blue tint */
-            background-size: 330px 330px; /* Much wider spacing */
-            animation: moveParticles2 75s linear infinite; /* Slow movement */
-        }
-
         /* Set base z-index for content */
         main, header, footer, #map-section {
             position: relative;
@@ -169,7 +123,7 @@
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 50%; transform: translateX(-50%); background-color: #6366f1; transition: width 0.3s ease; }
         .dark .nav-link::after { background-color: #818cf8; }
         .nav-link:hover::after { width: 100%; }
-        .header-transparent { background-color: transparent; }
+        .header-transparent { background-color: transparent;transition: background-color 0.3s ease, backdrop-filter 0.3s ease; }
         .header-scrolled { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
         .dark .header-scrolled { background-color: rgba(15, 23, 42, 0.9); }
         .header-scrolled nav { padding-top: 0.75rem; padding-bottom: 0.75rem; }
@@ -183,10 +137,34 @@
         .card-gradient-amber { background: linear-gradient(135deg, #ffffff 50%, #fffbeb); }
         .dark .card-gradient-amber { background: linear-gradient(135deg, #1f2937 50%, #78350f); }
         .slider-track { transition: transform 0.5s ease-in-out; }
+        /* === STAR CANVAS BACKGROUND === */
+#star-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Keep behind everything */
+  background: transparent;
+  pointer-events: none;
+}
+#how-it-works .card-gradient-indigo,
+#how-it-works .card-gradient-green,
+#how-it-works .card-gradient-amber {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
     </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300">
+    <canvas id="star-canvas"></canvas>
+
 
     <div id="particles-layer-3" class="particle-layer"></div>
     <div id="particles-layer-2" class="particle-layer"></div>
@@ -442,9 +420,17 @@
         
         <section id="how-it-works" class="py-20 md:py-28">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white text-center">A Simple System for a Big Impact</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300">We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.</p>
-                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white text-center">
+  A <span class="text-indigo-600 dark:text-indigo-400">Simple</span> System for a Big 
+  <span class="text-amber-500 dark:text-amber-400">Impact</span>
+</h2>
+
+                <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 text-center max-w-2xl mx-auto">
+  We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.
+</p>
+
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 text-center items-center">
+
                     
                     <div class="card-gradient-indigo p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-indigo-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
@@ -618,8 +604,10 @@
 
 
         // --- UI ELEMENTS ---
-        const mapSection = document.getElementById('map-section');
         const mainContent = document.getElementById('home-main');
+        const mapSection = document.getElementById('map-section');
+        const header = document.querySelector('header');
+
         const findMachineTriggers = document.querySelectorAll('.find-machine-trigger');
         const mapBackBtn = document.getElementById('map-back-home');
         const fvLoading = document.getElementById('fv-loading');
@@ -705,6 +693,9 @@
             // Show requested view
             const target = viewId === 'map' ? mapSection : mainContent;
             target.style.display = viewId === 'map' ? 'block' : '';
+              // Hide header on map page, show on home
+  if (header) header.style.display = viewId === 'map' ? 'none' : '';
+
 
             // Toggle links in the header
             const isMap = viewId === 'map';
@@ -990,6 +981,83 @@
         });
 
     </script>
+    <script>
+document.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 50) {
+    header.classList.add('header-scrolled');
+    header.classList.remove('header-transparent');
+  } else {
+    header.classList.remove('header-scrolled');
+    header.classList.add('header-transparent');
+  }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("star-canvas");
+  const ctx = canvas.getContext("2d");
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  const stars = [];
+  const numStars = 200; // adjust density here
+
+  // Create stars
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 1.8 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random(),
+      twinkle: Math.random() * 0.02 + 0.005
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "white";
+    stars.forEach(star => {
+      // Twinkle
+      star.alpha += star.twinkle * (Math.random() > 0.5 ? 1 : -1);
+      if (star.alpha < 0.2) star.alpha = 0.2;
+      if (star.alpha > 1) star.alpha = 1;
+
+      // Move
+      star.x += star.vx;
+      star.y += star.vy;
+
+      // Wrap around
+      if (star.x < 0) star.x = width;
+      if (star.x > width) star.x = 0;
+      if (star.y < 0) star.y = height;
+      if (star.y > height) star.y = 0;
+
+      ctx.globalAlpha = star.alpha;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  window.addEventListener("resize", () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  });
+});
+</script>
+
+
 
 </body>
 </html>
