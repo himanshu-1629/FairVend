@@ -17,11 +17,19 @@
     <script>
         // Tailwind dark mode configuration
         tailwind.config = { darkMode: 'class' };
-        // Apply saved theme (existing behavior)
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
+        
+        // --- THEME CHECK (Runs before page render to prevent flicker) ---
+        // Default theme is 'dark' if not specified in localStorage
+        const preferredTheme = localStorage.getItem('theme');
+        
+        if (preferredTheme === 'dark' || (preferredTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // Defaulting to system dark preference if no localStorage value found
+            document.documentElement.classList.add('dark');
+        } else if (preferredTheme === 'light') {
+            document.documentElement.classList.remove('dark');
         } else {
-          document.documentElement.classList.remove('dark');
+             // Fallback: If no preference is saved, set to dark by default per user request.
+             document.documentElement.classList.add('dark');
         }
     </script>
 
@@ -29,7 +37,7 @@
         /* Custom styles */
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* Map Section Styling (New Page View) */
+        /* Map Section Styling (New Page View) - LOCKED */
         #map-section { display: none; position: fixed; inset: 0; z-index: 60; padding: 1.5rem; background: rgba(0,0,0,0.4); }
         #map-section .card { background: transparent; }
         
@@ -238,8 +246,39 @@
                 <a href="#impact" class="nav-link nav-home-link">Impact</a>
                 <a href="#" id="header-find-machine-btn-desktop" class="nav-link find-machine-trigger">Find Nearest Machine</a>
             </div>
+            
             <div class="flex-1 flex justify-end items-center gap-3 sm:gap-4">
                 <a href="#" id="header-donate-btn" class="donate-trigger bg-indigo-600 text-white font-semibold px-4 sm:px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md text-sm">Donate Now</a>
+                
+                <div class="relative">
+                    <button id="settings-button" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                    <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                        <div class="px-4 py-2 text-xs font-semibold text-slate-400">Theme</div>
+                        <a href="#" id="theme-light-btn" class="theme-select-btn block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-theme="light">
+                            <span class="dark:hidden inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                Light View
+                            </span>
+                            <span class="hidden dark:inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                                Light View
+                            </span>
+                        </a>
+                        <a href="#" id="theme-dark-btn" class="theme-select-btn block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-theme="dark">
+                            <span class="dark:hidden inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                                Dark View
+                            </span>
+                            <span class="hidden dark:inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                Dark View
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
                 <button id="mobile-menu-button" class="lg:hidden text-slate-600 dark:text-slate-300 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
                 </button>
@@ -527,6 +566,10 @@
         const logoHomeLinks = document.querySelectorAll('.logo-home-link');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        
+        const settingsButton = document.getElementById('settings-button');
+        const settingsDropdown = document.getElementById('settings-dropdown');
+        const themeSelectButtons = document.querySelectorAll('.theme-select-btn');
 
 
         // Donation/Auth Modal elements (restored)
@@ -565,7 +608,7 @@
         let mapInitialized = false;
         let bounds = L.latLngBounds();
 
-        // --- AUTH/DASHBOARD PLACEHOLDERS (Restore core functions) ---
+        // --- CORE UTILITIES ---
         
         function showNotification(type, message, formType) {
              // Simplified notification logic for example
@@ -573,10 +616,21 @@
         }
         
         function showDonationView(user) {
-            // Logic to update donation modal and profile display
-            // Removed for brevity in this response, assuming you have this logic
+            // Placeholder for donor view logic
         }
-        
+
+        // --- THEME LOGIC (NEW/UPDATED) ---
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+            if(settingsDropdown) settingsDropdown.classList.add('hidden');
+        }
+
         // --- PAGE/VIEW CONTROL (Map Logic is now LOCKED) ---
 
         function showPage(viewId) {
@@ -590,9 +644,7 @@
 
             // Toggle links in the header
             const isMap = viewId === 'map';
-            // Show anchor links when on home, hide when on map
             headerLinks.forEach(link => link.style.display = isMap ? 'none' : '');
-            // Show find machine triggers when on home, hide when on map
             findMachineTriggers.forEach(link => link.style.display = isMap ? 'none' : '');
             
             // Hide mobile menu explicitly when changing views
@@ -726,10 +778,14 @@
 
         // --- ATTACH EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Core Navigation Fix 🛠️
-            mobileMenuButton.addEventListener('click', () => {
-                if (mobileMenu) mobileMenu.classList.toggle('hidden');
-            });
+            // 1. Core Navigation Fixes
+
+            // FIX: Mobile Menu Toggle
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
 
             // Bind all Find Machine triggers
             findMachineTriggers.forEach(btn => {
@@ -761,17 +817,15 @@
             // Handle anchor clicks within the main page content
             document.querySelectorAll('.nav-home-link').forEach(link => {
                 link.addEventListener('click', function(e) {
-                    if (mobileMenu) mobileMenu.classList.add('hidden'); // Hide menu on click 🛠️
+                    if (mobileMenu) mobileMenu.classList.add('hidden'); // Hide mobile menu
                     if (mapSection.style.display !== 'none') {
                         e.preventDefault();
                         showPage('home');
                         const targetId = link.getAttribute('href');
-                        // Use scrollIntoView when home is active
                         setTimeout(() => {
                             document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
                         }, 100); 
                     }
-                    // Otherwise, default anchor scroll takes over
                 });
             });
 
@@ -786,8 +840,32 @@
                     alert('Location access denied or failed.');
                 });
             });
+            
+            // 2. Theme Settings Logic
 
-            // 2. Auth/Donation Logic (Restored)
+            // Toggle dropdown visibility
+            settingsButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(settingsDropdown) settingsDropdown.classList.toggle('hidden');
+            });
+
+            // Apply theme change on click
+            themeSelectButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    setTheme(btn.dataset.theme);
+                });
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', (e) => {
+                if(settingsDropdown && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                    settingsDropdown.classList.add('hidden');
+                }
+            });
+
+
+            // 3. Auth/Donation Logic (Restored)
 
             // Donation modal triggers
             donateTriggers.forEach(trigger => {
