@@ -19,16 +19,14 @@
         tailwind.config = { darkMode: 'class' };
         
         // --- THEME CHECK (Runs before page render to prevent flicker) ---
-        // Default theme is 'dark' if not specified in localStorage
         const preferredTheme = localStorage.getItem('theme');
         
         if (preferredTheme === 'dark' || (preferredTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            // Defaulting to system dark preference if no localStorage value found
             document.documentElement.classList.add('dark');
         } else if (preferredTheme === 'light') {
             document.documentElement.classList.remove('dark');
         } else {
-             // Fallback: If no preference is saved, set to dark by default per user request.
+             // Fallback: If no preference is saved, set to dark by default.
              document.documentElement.classList.add('dark');
         }
     </script>
@@ -37,7 +35,67 @@
         /* Custom styles */
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* Map Section Styling (New Page View) - LOCKED */
+        /* === PARTICLE BACKGROUND STYLES (FINAL SUBTLE VERSION) === */
+        @keyframes moveParticles1 { 0% { background-position: 0 0; } 100% { background-position: 400px 400px; } }
+        @keyframes moveParticles2 { 0% { background-position: 0 0; } 100% { background-position: -600px -600px; } }
+        @keyframes moveParticles3 { 0% { background-position: 0 0; } 100% { background-position: 800px 800px; } }
+
+        .particle-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Ensure particles are behind content but visible */
+            pointer-events: none; /* Allows clicks/interactions with content underneath */
+        }
+
+        #particles-layer-1 {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.635) 1.6px, transparent 0); /* Very faint, small dots */
+            background-size: 180px 180px; /* Wider spacing */
+            animation: moveParticles1 50s linear infinite; /* Very slow movement */
+        }
+        #particles-layer-2 {
+            background-image: radial-gradient(rgba(173, 216, 230, 0.671) 1.4px, transparent 0); /* Even fainter, subtle blue tint */
+            background-size: 250px 250px; /* Much wider spacing */
+            animation: moveParticles2 75s linear infinite; /* Slow movement */
+        }
+        #particles-layer-3 {
+            background-image: radial-gradient(rgba(255, 221, 0, 0.657) 1.6px, transparent 0); /* Faint amber, slightly larger */
+            background-size: 300px 300px; /* Very wide spacing */
+            animation: moveParticles3 175s linear infinite; /* Medium-slow movement */
+        }
+        #particles-layer-1 {
+            background-image: radial-gradient(#ffffffb8 1.5px, transparent 0); /* Very faint, small dots */
+            background-size: 280px 280px; /* Wider spacing */
+            animation: moveParticles1 50s linear infinite; /* Very slow movement */
+        }
+        #particles-layer-1 {
+            background-image: radial-gradient(#dc5f5fcd 1.4px, transparent 0); /* Very faint, small dots */
+            background-size: 210px 210px; /* Wider spacing */
+            animation: moveParticles1 50s linear infinite; /* Very slow movement */
+        }
+        
+        #particles-layer-2 {
+            background-image: radial-gradient(hsla(124, 89%, 47%, 0.671) 1.4px, transparent 0); /* Even fainter, subtle blue tint */
+            background-size: 330px 330px; /* Much wider spacing */
+            animation: moveParticles2 75s linear infinite; /* Slow movement */
+        }
+
+        /* Set base z-index for content */
+        main, header, footer, #map-section {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* IMPORTANT FIX: Ensure FIXED HEADER STAYS ON TOP */
+        header {
+            position: sticky; 
+            top: 0;
+            z-index: 50; 
+        }
+
+        /* Map Section Styling (Locked Module) */
         #map-section { display: none; position: fixed; inset: 0; z-index: 60; padding: 1.5rem; background: rgba(0,0,0,0.4); }
         #map-section .card { background: transparent; }
         
@@ -130,6 +188,11 @@
 
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300">
 
+    <div id="particles-layer-3" class="particle-layer"></div>
+    <div id="particles-layer-2" class="particle-layer"></div>
+    <div id="particles-layer-1" class="particle-layer"></div>
+
+
     <div id="auth-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[100] p-4 transition-opacity duration-300">
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md transform transition-transform duration-300 scale-95">
             <div class="relative p-8">
@@ -193,7 +256,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <div>
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Support Our Mission</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Welcome, <span id="donor-welcome-name" class="font-semibold">Donor</span>!</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Welcome, <span id="donor-welcome-name" class="font-semibold">Donor</span>!</p>
                         </div>
                         <button id="logout-btn" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Log Out</button>
                     </div>
@@ -262,7 +325,7 @@
                                 Light View
                             </span>
                             <span class="hidden dark:inline-flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 Light View
                             </span>
                         </a>
@@ -272,7 +335,7 @@
                                 Dark View
                             </span>
                             <span class="hidden dark:inline-flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                                 Dark View
                             </span>
                         </a>
@@ -314,76 +377,75 @@
         </section>
 
         <section id="donor-dashboard" class="hidden py-16 bg-white dark:bg-slate-800">
-            </section>
-
-        <section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50">
-            <div class="container mx-auto px-6">
-                <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Our Collective Impact</h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300">Transparency is at the heart of what we do. See how your contributions are making a tangible difference in real-time.</p>
-                </div>
-                <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-                    <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
-                        <div class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">₹2.5M+</div>
-                        <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Total Funds Raised</div>
-                        <p class="mt-2 text-slate-500 dark:text-slate-400">From thousands of generous donors across the country.</p>
-                    </div>
-                    <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
-                        <div class="text-5xl font-extrabold text-green-600 dark:text-green-400">50,000+</div>
-                        <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Individuals Supported</div>
-                        <p class="mt-2 text-slate-500 dark:text-slate-400">Provided with essential goods through our vending network.</p>
-                    </div>
-                </div>
-                <div class="mt-20">
-                    <h3 class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white">Stories from Our Community</h3>
-                    <div class="relative max-w-2xl mx-auto mt-8">
-                        <div class="overflow-hidden">
-                            <div id="slider-track" class="flex slider-track">
-                                <div class="w-full flex-shrink-0 px-4">
-                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
-                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
-                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                        </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic">"As a student, every rupee matters. The FairVend card has been a blessing, helping me buy snacks and essentials without worrying. It feels like someone cares."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Ananya, Student from Mumbai</div>
-                                    </div>
+        </section>
+        <section id="impact" class="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800/50 rounded-t-3xl">
+    <div class="container mx-auto px-6">
+        <div class="text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Our Collective Impact</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300">Transparency is at the heart of what we do. See how your contributions are making a tangible difference in real-time.</p>
+        </div>
+        <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+            <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
+                <div class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">₹2.5M+</div>
+                <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Total Funds Raised</div>
+                <p class="mt-2 text-slate-500 dark:text-slate-400">From thousands of generous donors across the country.</p>
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-800 p-8 rounded-2xl">
+                <div class="text-5xl font-extrabold text-green-600 dark:text-green-400">50,000+</div>
+                <div class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Individuals Supported</div>
+                <p class="mt-2 text-slate-500 dark:text-slate-400">Provided with essential goods through our vending network.</p>
+            </div>
+        </div>
+        <div class="mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white">Stories from Our Community</h3>
+            <div class="relative max-w-2xl mx-auto mt-8">
+                <div class="overflow-hidden">
+                    <div id="slider-track" class="flex slider-track">
+                        <div class="w-full flex-shrink-0 px-4">
+                            <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
-                                <div class="w-full flex-shrink-0 px-4">
-                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
-                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
-                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                        </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic">"After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief. Thank you, FairVend, for your support."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Rajesh, Worker from Delhi</div>
-                                    </div>
-                                </div>
-                                <div class="w-full flex-shrink-0 px-4">
-                                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
-                                        <div class="text-amber-400 flex justify-center gap-1 mb-4">
-                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                        </div>
-                                        <p class="text-slate-600 dark:text-slate-300 italic">"The dignity this program provides is immeasurable. Getting essentials for my family without feeling like I'm asking for a handout has made all the difference."</p>
-                                        <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Priya, Mother from Chennai</div>
-                                    </div>
-                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 italic">"As a student, every rupee matters. The FairVend card has been a blessing, helping me buy snacks and essentials without worrying. It feels like someone cares."</p>
+                                <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Ananya, Student from Mumbai</div>
                             </div>
                         </div>
-                        <button id="prev-slide" class="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
-                            <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        </button>
-                        <button id="next-slide" class="absolute top-1/2 -translate-y-1/2 right-0 translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
-                            <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </button>
+                        <div class="w-full flex-shrink-0 px-4">
+                            <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 italic">"After a long day of work, having access to affordable drinks and sanitary products for my daughter is a huge relief. Thank you, FairVend, for your support."</p>
+                                <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Rajesh, Worker from Delhi</div>
+                            </div>
+                        </div>
+                        <div class="w-full flex-shrink-0 px-4">
+                            <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg text-center">
+                                <div class="text-amber-400 flex justify-center gap-1 mb-4">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 italic">"The dignity this program provides is immeasurable. Getting essentials for my family without feeling like I'm asking for a handout has made all the difference."</p>
+                                <div class="mt-4 font-bold text-slate-800 dark:text-slate-100">- Priya, Mother from Chennai</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <button id="prev-slide" class="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
+                    <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="next-slide" class="absolute top-1/2 -translate-y-1/2 right-0 translate-x-12 p-2 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-700 transition">
+                    <svg class="w-6 h-6 text-slate-700 dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
             </div>
-        </section>
-
+        </div>
+    </section>
+        
         <section id="how-it-works" class="py-20 md:py-28">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">A Simple System for a Big Impact</h2>
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white text-center">A Simple System for a Big Impact</h2>
                 <p class="mt-4 max-w-2xl mx-auto text-slate-600 dark:text-slate-300">We believe in direct, transparent, and dignified support. Here’s how our color-coded discount system works.</p>
                 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+                    
                     <div class="card-gradient-indigo p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-indigo-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
@@ -391,6 +453,7 @@
                         <h3 class="mt-6 text-xl font-bold dark:text-white">Get Your Card</h3>
                         <p class="mt-2 text-slate-500 dark:text-slate-400">In partnership with local NGOs, we distribute FairVend cards. Each color represents a different level of support.</p>
                     </div>
+                    
                     <div class="card-gradient-green p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-green-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
@@ -398,6 +461,7 @@
                         <h3 class="mt-6 text-xl font-bold dark:text-white">Scan the Color</h3>
                         <p class="mt-2 text-slate-500 dark:text-slate-400">Simply show your card to the vending machine's scanner. Our system instantly recognizes and applies the discount.</p>
                     </div>
+                    
                     <div class="card-gradient-amber p-8 rounded-2xl shadow-lg hover:shadow-xl dark:hover:shadow-amber-500/10 transition-shadow transform hover:-translate-y-2">
                         <div class="bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M12 6h.01M6 12h.01M18 12h.01M7 7h.01M17 7h.01M7 17h.01M17 17h.01"></path></svg>
@@ -619,7 +683,7 @@
             // Placeholder for donor view logic
         }
 
-        // --- THEME LOGIC (NEW/UPDATED) ---
+        // --- THEME LOGIC (LOCKED) ---
         function setTheme(theme) {
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -859,7 +923,7 @@
 
             // Close dropdown if clicked outside
             document.addEventListener('click', (e) => {
-                if(settingsDropdown && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
+                if(settingsDropdown && settingsButton && !settingsButton.contains(e.target) && !settingsDropdown.contains(e.target)) {
                     settingsDropdown.classList.add('hidden');
                 }
             });
