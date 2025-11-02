@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -640,7 +641,7 @@
         
         // Firestore refs for Dashboard
         const metricsDocRef = doc(dbFirestore, "metrics", "donations");
-        // const metricsListenerUnsubscribe = null; // Keeping this defined as it was in the original code but uncommenting its definition in the global scope.
+        // const metricsListenerUnsubscribe = null;
 
         // RTDB refs for Map
         const machinesRef = ref(dbRealtime, 'machines');
@@ -710,7 +711,13 @@
         const logoutBtnHeader = document.getElementById('logout-btn-header');
         const loginNotification = document.getElementById('login-notification');
         const signupNotification = document.getElementById('signup-notification');
+        const modalLogoutBtn = document.getElementById('logout-btn'); // For the modal logout button
         
+        // --- Razorpay Integration Constants (FIXED) ---
+        const RAZORPAY_KEY_ID = "rzp_test_RaxMZ3nfo52vHA"; 
+        const COMPANY_NAME = "FairVend";
+        const COMPANY_LOGO_URL = "https://cdn-icons-png.flaticon.com/512/847/847969.png"; 
+        // -----------------------------------------------------------------------
 
 
         // --- MAP STATE ---
@@ -1006,7 +1013,7 @@
                 const marker = L.marker([m.lat, m.lng]).addTo(map);
                 const products = Array.isArray(m.products) ? m.products : (m.products || []);
                 const productsHtml = products.map(p => `<li class="text-xs">${escapeHtml(p.name || p)} — <strong>₹${escapeHtml(p.price || '')}</strong></li>`).join('');
-                const googleLink = `http://maps.google.com/?q=${encodeURIComponent(m.lat + ',' + m.lng)}&destination_place_id=${encodeURIComponent(m.name||'')}`;
+                const googleLink = `http://maps.google.com/?q=$${encodeURIComponent(m.lat + ',' + m.lng)}&destination_place_id=${encodeURIComponent(m.name||'')}`;
                 const popupHtml = `<div class="font-sans min-w-[200px] dark:text-slate-800"><h3 class="text-base font-bold text-indigo-600">${escapeHtml(m.name || 'FairVend')}</h3><div class="text-xs text-gray-500">${escapeHtml(m.address || m.city || '')}</div><div class="mt-2"><strong class="text-sm">Products:</strong><ul class="list-disc ml-4 mt-1">${productsHtml}</ul></div><div class="mt-3"><a target="_blank" rel="noopener" href="${googleLink}" class="text-sm font-semibold text-indigo-600 hover:underline">Get Directions</a></div></div>`;
                 marker.bindPopup(popupHtml, { minWidth: 220 });
                 markers[key] = { marker, data: m }; bounds.extend([m.lat, m.lng]);
@@ -1163,6 +1170,18 @@
             authCloseBtn.addEventListener('click', hideAuthModal);
             closeModalBtn.addEventListener('click', hideThankYouModal);
             
+            // 4. FIX: Attach Log Out functionality to modal button
+            modalLogoutBtn?.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    hideAuthModal();
+                    console.log('User signed out from modal');
+                } catch (err) {
+                    console.error('Logout failed:', err);
+                }
+            });
+            
             // Tab Switching Logic Fix
             if (loginTab && signupTab && loginForm && signupForm) {
                 loginTab.addEventListener('click', () => {
@@ -1201,34 +1220,74 @@
                  donationAmountBtns.forEach(b => b.classList.remove('bg-indigo-100', 'dark:bg-indigo-900/50', 'ring-2', 'ring-indigo-300'));
             });
             
+            // ** FIXED: This function now handles Razorpay checkout **
             modalDonationForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const amount = parseFloat(customAmountInput.value);
+                const user = auth.currentUser;
+
                 if (!amount || amount <= 0) {
                     showNotification('error', 'Please enter a valid donation amount.', 'donation');
                     return;
                 }
                 
-                try {
-                    // Placeholder: Simulate update of total funds raised in Firestore
-                    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API call
-                    
-                    await runTransaction(dbFirestore, async (transaction) => {
-                        const metricsDoc = await transaction.get(metricsDocRef);
-                        if (!metricsDoc.exists()) {
-                            transaction.set(metricsDocRef, { totalDonations: amount });
-                        } else {
-                            transaction.update(metricsDocRef, { totalDonations: increment(amount) });
+                // Convert amount from Rupees to Paise (Razorpay expects amount in the smallest currency unit)
+                const amountInPaise = amount * 100;
+
+                // Use user data for prefill
+                const donorName = user ? (user.displayName || user.email.split('@')[0]) : 'Anonymous Donor';
+                const donorEmail = user ? user.email : '';
+                
+                const options = {
+                    key: RAZORPAY_KEY_ID, 
+                    amount: amountInPaise, 
+                    currency: "INR",
+                    name: COMPANY_NAME,
+                    description: `Donation to help purchase essential goods.`,
+                    image: COMPANY_LOGO_URL,
+                    prefill: {
+                        name: donorName,
+                        email: donorEmail,
+                    },
+                    theme: {
+                        color: "#4f46e5" 
+                    },
+                    handler: async function (response) {
+                        // This function runs on SUCCESSFUL payment
+                        
+                        // 1. Simulate Firestore Update (Keep your existing logic)
+                        try {
+                            await runTransaction(dbFirestore, async (transaction) => {
+                                const metricsDoc = await transaction.get(metricsDocRef);
+                                if (!metricsDoc.exists()) {
+                                    transaction.set(metricsDocRef, { totalDonations: amount });
+                                } else {
+                                    transaction.update(metricsDocRef, { totalDonations: increment(amount) });
+                                }
+                            });
+                        } catch (error) {
+                             console.error("Firestore Update Failed after payment:", error);
                         }
-                    });
-                    
-                    hideAuthModal();
-                    showThankYouModal(`Thank you for your generous donation of ₹${amount}!`);
-                    modalDonationForm.reset();
-                    
+                        
+                        // 2. Show Success Modal
+                        hideAuthModal();
+                        showThankYouModal(`Thank you for your generous donation of ₹${amount}! Payment ID: ${response.razorpay_payment_id}`);
+                        modalDonationForm.reset();
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            console.log('Razorpay Checkout closed by user.');
+                        }
+                    }
+                };
+                
+                // Open the Razorpay Checkout form
+                try {
+                    const rzp1 = new window.Razorpay(options);
+                    rzp1.open();
                 } catch (error) {
-                    console.error("Donation Transaction Failed: ", error);
-                    showNotification('error', 'Your donation could not be processed. Please try again.', 'donation');
+                    console.error("Error initializing Razorpay:", error);
+                    alert("Payment gateway failed to initialize. Check your Razorpay Key ID.");
                 }
             });
         });
@@ -1309,7 +1368,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-
 
 
 </body>
